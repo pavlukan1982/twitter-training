@@ -14,7 +14,7 @@
 
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
-		
+
 		<camel.version>2.15.1.redhat-620133</camel.version>
 
 		<!-- versions of dependencies -->
@@ -23,32 +23,32 @@
 
 		<fabric8.bom.version>1.2.0.redhat-133</fabric8.bom.version>
 		<fabric.version>1.2.0.redhat-133</fabric.version>
-	
+
 		<felix.bundle.plugin.version>2.5.4</felix.bundle.plugin.version>
-	
+
 	</properties>
 
-	<dependencyManagement>
-	<dependencies>
-		
-		
-			<dependency>
-				<groupId>org.jboss.fuse.bom</groupId>
-				<artifactId>jboss-fuse-parent</artifactId>
-				<version>${jboss.fuse.bom.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
 
-			<dependency>
-				<groupId>io.fabric8.bom</groupId>
-				<artifactId>fabric8-bom</artifactId>
-				<version>${fabric8.bom.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		
-		
+	<dependencies>
+
+
+		<dependency>
+			<groupId>org.jboss.fuse.bom</groupId>
+			<artifactId>jboss-fuse-parent</artifactId>
+			<version>${jboss.fuse.bom.version}</version>
+			<type>pom</type>
+			<scope>import</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.fabric8.bom</groupId>
+			<artifactId>fabric8-bom</artifactId>
+			<version>${fabric8.bom.version}</version>
+			<type>pom</type>
+			<scope>import</scope>
+		</dependency>
+
+
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-core</artifactId>
@@ -61,8 +61,16 @@
 			<version>${camel.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.twitter4j</groupId>
+			<artifactId>twitter4j-core</artifactId>
+			<version>4.0.4</version>
+		</dependency>
+
+
+
 	</dependencies>
-	</dependencyManagement>
+
 
 	<build>
 		<plugins>
