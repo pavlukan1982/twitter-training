@@ -25,27 +25,46 @@
 
 	<!-- CamelContext with the twitter websocket example -->
 	<camelContext id="twitter-camel"
-		xmlns="http://camel.apache.org/schema/blueprint">
+		xmlns="http://camel.apache.org/schema/blueprint" xmlns:movie="http://fabric8.com/examples/movie">
 
 		<!-- use properties files for twitter codes -->
 		<propertyPlaceholder id="placeholder"
 			location="classpath:twitter.properties" />
 
-		<route id="twitter-convert">
-			<from
-				uri="twitter://search?type=polling&amp;delay=20000&amp;keywords=#FantasticFourMovie
-			        &amp;accessToken={{access.token}}&amp;accessTokenSecret={{access.token-secret}}&amp;consumerKey={{consumer.key}}&amp;consumerSecret={{consumer.secret}}" />
-			<!-- log tweet to the log -->
-<!-- 			<to uri="log:tweet" />  -->
-			<log message="Twitter ${body}"/>
-			<to uri="bean:Status?method=convertToTweet" />
+		<route id="get-file">
+			<from uri="file:work/twitter-training/input" />
+			<split>
+				<xpath>//movie:movie</xpath>
+				<setHeader headerName="CamelTwitterKeywords">
+					<xpath resultType="java.lang.String">/movie:movie/@id</xpath>
+				</setHeader>
+				<to uri="direct:tweetQueue" />
+			</split>
 		</route>
 
+
+
+		
+ 		<route id="twitter-convert">
+			<from uri="direct:tweetQueue" />
+			<log message="MyTweet ${header.CamelTwitterKeywords}" />
+			<to
+				uri="twitter://search?accessToken={{access.token}}&amp;accessTokenSecret={{access.token-secret}}&amp;consumerKey={{consumer.key}}&amp;consumerSecret={{consumer.secret}}" /> 			
+ 				
+<!--  			<log message="Twitter ${body}" />
+			<to uri="bean:Status?method=convertToTweet" />
+		</route>
+		
 		<route id="myTweet-file">
 			<from uri="direct:myTweet" />
 			<log message="MyTweet ${body}" />
-            <to uri="file:work/twitter-training/output" />
-		</route>
+			<to uri="file:work/twitter-training/output" />
+-->		
+
+			
+
+<to uri="mock:test" />
+</route> 
 
 	</camelContext>
 
