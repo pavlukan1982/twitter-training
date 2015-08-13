@@ -1,6 +1,6 @@
 package model;
 
-public class Tweet {
+public class MyTweet {
 	private String message;
 
 	public String getMessage() {

@@ -1,11 +1,16 @@
 package service;
 
-import model.Tweet;
+import java.util.List;
+
+import model.MyTweet;
 
 import org.apache.camel.Produce;
 import org.apache.camel.ProducerTemplate;
 
-public class Status {
+import twitter4j.Status;
+import twitter4j.Twitter;
+
+public class MyStatus {
 
 	@Produce(uri = "direct:myTweet")
 	private ProducerTemplate producer;
@@ -18,12 +23,12 @@ public class Status {
 		this.producer = producer;
 	}
 
-	public void convertToTweet(twitter4j.Status status) {
-
-		Tweet tweet = new Tweet();
-		tweet.setMessage(status.getText());
-
-		producer.sendBody(tweet);
+	public void convertToTweet(List<Status> statusList) {
+		MyTweet myTweet = new MyTweet();
+		if (statusList.size() > 0) {
+			myTweet.setMessage(statusList.get(0).getText());
+		}
+		producer.sendBody(myTweet);
 
 	}
 
