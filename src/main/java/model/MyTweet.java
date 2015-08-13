@@ -11,4 +11,11 @@ public class MyTweet {
 		this.message = message;
 	}
 
+	@Override
+	public String toString() {
+		return message;
+	}
+	
+	
+
 }

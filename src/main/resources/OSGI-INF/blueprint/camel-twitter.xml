@@ -37,7 +37,7 @@
     <split>
       <xpath>//movie:movie</xpath>
       <setHeader headerName="CamelTwitterKeywords">
-        <xpath resultType="java.lang.String">/movie:movie/@id</xpath>
+       <xpath resultType="java.lang.String">/movie:movie/@id</xpath>
       </setHeader>
       <to uri="direct:tweetQueue"/>
     </split>
@@ -45,6 +45,7 @@
   
   <route id="twitter-search">
     <from uri="direct:tweetQueue"/>
+    
     <log message="MyTweet ${header.CamelTwitterKeywords}"/>
     <to uri="twitter://search?accessToken={{access.token}}&amp;accessTokenSecret={{access.token-secret}}&amp;consumerKey={{consumer.key}}&amp;consumerSecret={{consumer.secret}}"/>
     <to uri="bean:Status?method=convertToTweet"/>
