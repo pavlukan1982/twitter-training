@@ -1,4 +1,4 @@
-package by.pauliulevich.model;
+package by.pauliukevich.model;
 
 public class MyTweet {
 	private String message;

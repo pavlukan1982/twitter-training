@@ -16,7 +16,7 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 
 		<camel.version>2.15.1.redhat-620133</camel.version>
-
+		<org.apache.logging.log4j.version>2.1</org.apache.logging.log4j.version>
 		<!-- versions of dependencies -->
 		<jboss.fuse.bom.version>6.2.0.redhat-133</jboss.fuse.bom.version>
 		<!-- the version of the BOM, defining all the dependency versions -->
@@ -73,6 +73,20 @@
 			<version>${camel.version}</version>
 			<scope>test</scope>
 		</dependency>
+		
+		<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-slf4j-impl</artifactId>
+				<version>${org.apache.logging.log4j.version}</version>
+			</dependency>
+			
+						<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-core</artifactId>
+				<version>${org.apache.logging.log4j.version}</version>
+			</dependency>
+			
+		
 
 	</dependencies>
 

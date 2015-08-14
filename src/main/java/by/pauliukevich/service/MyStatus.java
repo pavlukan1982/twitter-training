@@ -6,7 +6,7 @@ import org.apache.camel.Produce;
 import org.apache.camel.ProducerTemplate;
 
 import twitter4j.Status;
-import by.pauliulevich.model.MyTweet;
+import by.pauliukevich.model.MyTweet;
 
 public class MyStatus {
 
