@@ -67,7 +67,12 @@
 			<version>4.0.4</version>
 		</dependency>
 
-
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-test-blueprint</artifactId>
+			<version>${camel.version}</version>
+			<scope>test</scope>
+		</dependency>
 
 	</dependencies>
 

@@ -1,14 +1,12 @@
-package service;
+package by.pauliukevich.service;
 
 import java.util.List;
-
-import model.MyTweet;
 
 import org.apache.camel.Produce;
 import org.apache.camel.ProducerTemplate;
 
 import twitter4j.Status;
-import twitter4j.Twitter;
+import by.pauliulevich.model.MyTweet;
 
 public class MyStatus {
 
