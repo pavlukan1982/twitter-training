@@ -24,38 +24,41 @@
 
 
 	<!-- CamelContext with the twitter websocket example -->
-	<camelContext id="twitter-camel" xmlns="http://camel.apache.org/schema/blueprint" xmlns:movie="http://fabric8.com/examples/movie">
-  <propertyPlaceholder location="classpath:twitter.properties" id="placeholder"/>
-  <route id="get-file">
-  
-  
-  
-  <!-- Set up if fail: move to failed subdirectory -->
-  
-  
-    <from uri="file:work/twitter-training/input"/>
-    <split>
-      <xpath>//movie:movie</xpath>
-      <setHeader headerName="CamelTwitterKeywords">
-       <xpath resultType="java.lang.String">/movie:movie/@id</xpath>
-      </setHeader>
-      <to uri="direct:tweetQueue"/>
-    </split>
-  </route>
-  
-  <route id="twitter-search">
-    <from uri="direct:tweetQueue"/>
-    
-    <log message="MyTweet ${header.CamelTwitterKeywords}"/>
-    <to uri="twitter://search?accessToken={{access.token}}&amp;accessTokenSecret={{access.token-secret}}&amp;consumerKey={{consumer.key}}&amp;consumerSecret={{consumer.secret}}"/>
-    <to uri="bean:Status?method=convertToTweet"/>
-  </route>  
-    
-  <route id="twitter-convert"> 
-    <from uri="direct:myTweet"></from>
-    <log message="Twitter ${body}"/>
-    <to uri="mock:test"/>
-  </route>
-</camelContext>
+	<camelContext id="twitter-camel"
+		xmlns="http://camel.apache.org/schema/blueprint" xmlns:movie="http://fabric8.com/examples/movie">
+		<propertyPlaceholder location="classpath:twitter.properties"
+			id="placeholder" />
+
+		<route id="get-file">
+			<from
+				uri="file:work/twitter-training/input?moveFailed=../failed&amp;move=../processed" />
+			<log message="File ${file:name} started processing" />
+			<split>
+				<xpath>//movie:movie</xpath>
+				<setHeader headerName="searchedMovie">
+					<xpath resultType="java.lang.String">/movie:movie/@id</xpath>
+				</setHeader>
+				<setHeader headerName="CamelTwitterKeywords">
+					<simple>#${header.searchedMovie}Movie</simple>
+				</setHeader>
+				<to uri="direct:tweetQueue" />
+			</split>
+		</route>
+		
+		<route id="twitter-search">
+			<from uri="direct:tweetQueue" />
+			<log
+				message="Searching for ${header.searchedMovie} keyword ${header.CamelTwitterKeywords}" />
+			<to
+				uri="twitter://search?accessToken={{access.token}}&amp;accessTokenSecret={{access.token-secret}}&amp;consumerKey={{consumer.key}}&amp;consumerSecret={{consumer.secret}}" />
+			<to uri="bean:Status?method=convertToTweet" />
+		</route>
+
+		<route id="twitter-convert">
+			<from uri="direct:myTweet"></from>
+			<log message="Twitter ${body}" />
+			<to uri="mock:test" />
+		</route>
+	</camelContext>
 
 </blueprint>
