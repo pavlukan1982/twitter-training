@@ -23,9 +23,9 @@
 	<bean id="Status" class="service.MyStatus" />
 
 
-	<!-- CamelContext with the twitter websocket example -->
-	<camelContext id="twitter-camel"
-		xmlns="http://camel.apache.org/schema/blueprint" xmlns:movie="http://fabric8.com/examples/movie">
+	<camelContext id="camel-twitter" xmlns="http://camel.apache.org/schema/blueprint"
+		 xmlns:movie="http://fabric8.com/examples/movie">
+		
 		<propertyPlaceholder location="classpath:twitter.properties"
 			id="placeholder" />
 
