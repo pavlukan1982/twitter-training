@@ -19,15 +19,15 @@
 
 
 
-
-	<bean id="Status" class="service.MyStatus" />
+ 
+	<bean id="Status" class="by.pauliukevich.service.MyStatus" />
 
 
 	<camelContext id="camel-twitter" xmlns="http://camel.apache.org/schema/blueprint"
 		 xmlns:movie="http://fabric8.com/examples/movie">
-		
+ 		
 		<propertyPlaceholder location="classpath:twitter.properties"
-			id="placeholder" />
+			id="placeholder" /> 
 
 		<route id="get-file">
 			<from
@@ -45,7 +45,7 @@
 			</split>
 		</route>
 		
-		<route id="twitter-search">
+ 		<route id="twitter-search">
 			<from uri="direct:tweetQueue" />
 			<log
 				message="Searching for ${header.searchedMovie} keyword ${header.CamelTwitterKeywords}" />
@@ -58,7 +58,7 @@
 			<from uri="direct:myTweet"></from>
 			<log message="Twitter ${body}" />
 			<to uri="mock:test" />
-		</route>
+		</route> 
 	</camelContext>
 
 </blueprint>
