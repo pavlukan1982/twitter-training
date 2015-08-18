@@ -19,6 +19,7 @@ public class RouteTest extends CamelBlueprintTestSupport {
 		return true;
 	}
 
+	
 	@Test
 	public void testGetFile() throws Exception {
 	
