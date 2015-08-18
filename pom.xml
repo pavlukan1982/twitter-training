@@ -16,8 +16,8 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 
 		<camel.version>2.15.1.redhat-620133</camel.version>
-		<org.apache.logging.log4j.version>2.1</org.apache.logging.log4j.version>
-		<!-- versions of dependencies -->
+	
+	
 		<jboss.fuse.bom.version>6.2.0.redhat-133</jboss.fuse.bom.version>
 		<!-- the version of the BOM, defining all the dependency versions -->
 
@@ -74,7 +74,12 @@
 			<scope>test</scope>
 		</dependency>
 
-
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-twitter</artifactId>
+			<version>${camel.version}</version>
+			<scope>test</scope>
+		</dependency>
 
 
 		<dependency>
@@ -90,9 +95,9 @@
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.7.12</version>
-
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.5</version>
+			<scope>test</scope>
 		</dependency>
 
 	</dependencies>

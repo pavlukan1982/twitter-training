@@ -23,7 +23,7 @@ public class RouteTest extends CamelBlueprintTestSupport {
 	@Test
 	public void testGetFile() throws Exception {
 	
-		getMockEndpoint("direct:tweetQueue").expectedMessageCount(2);
+		getMockEndpoint("mock:direct:tweetQueue").expectedMessageCount(1);
 
 		ClassLoader classLoader = getClass().getClassLoader();
 		File testFile = new File(classLoader.getResource("data/movies.xml")
