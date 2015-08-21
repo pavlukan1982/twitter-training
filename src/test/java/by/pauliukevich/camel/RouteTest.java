@@ -5,8 +5,6 @@ import java.io.File;
 import org.apache.camel.test.blueprint.CamelBlueprintTestSupport;
 import org.junit.Test;
 
-
-
 public class RouteTest extends CamelBlueprintTestSupport {
 
 	@Override
@@ -19,7 +17,6 @@ public class RouteTest extends CamelBlueprintTestSupport {
 		return true;
 	}
 
-	
 	@Test
 	public void testGetFile() throws Exception {
 
@@ -30,7 +27,7 @@ public class RouteTest extends CamelBlueprintTestSupport {
 				.getFile());
 
 		template().sendBody("file:work/twitter-training/input", testFile);
-	
+
 		assertMockEndpointsSatisfied();
 	}
 
@@ -38,6 +35,5 @@ public class RouteTest extends CamelBlueprintTestSupport {
 	public String isMockEndpointsAndSkip() {
 		return "((direct)):(.*)";
 	}
-	
-	
+
 }

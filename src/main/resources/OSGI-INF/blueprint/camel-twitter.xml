@@ -10,25 +10,40 @@
 	OF ANY KIND, either express or implied. See the License for the specific 
 	language governing permissions and limitations under the License. -->
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+	
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
-           http://www.osgi.org/xmlns/blueprint/v1.0.0 
-           http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
            http://camel.apache.org/schema/blueprint 
            http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
 
-
-
- 
 	<bean id="Status" class="by.pauliukevich.service.MyStatus" />
 
 
-	<camelContext id="camel-twitter" xmlns="http://camel.apache.org/schema/blueprint"
-		 xmlns:movie="http://fabric8.com/examples/movie">
- 		
-		<propertyPlaceholder location="classpath:twitter.properties"
-			id="placeholder" /> 
+	<bean id="googleMailConfig"
+		class="org.apache.camel.component.google.mail.GoogleMailConfiguration">
+		<property name="applicationName" value="fuse-training" />
+		<property name="clientId" value="731646980308-sgbkhn645qumoal8mv8oga8i3506f7sq.apps.googleusercontent.com" />
+		<property name="clientSecret" value="J30wle93fKNyldAFYKNvpFf0" />
+		<property name="refreshToken" value="1/-p0d7S6YYyGBHCikBtpnZY1em35VIAOfHWZI5Pt9exxIgOrJDtdun6zK6XiATCKT" />
+	</bean>
 
+
+
+
+
+
+	<camelContext id="camel-twitter"
+		xmlns="http://camel.apache.org/schema/blueprint" xmlns:movie="http://fabric8.com/examples/movie">
+		
+		<propertyPlaceholder location="classpath:twitter.properties"
+			id="placeholder" />
+		
+		<endpoint id="googleMail" uri="google-mail://messages/list?userId=pavlukan1983">
+			<property key="configuration" ref="googleMailConfig"/>
+		</endpoint>
+		
+		
+		
 		<route id="get-file">
 			<from
 				uri="file:work/twitter-training/input?moveFailed=../failed&amp;move=../processed" />
@@ -44,8 +59,8 @@
 				<to uri="direct:tweetQueue" />
 			</split>
 		</route>
-		
- 		<route id="twitter-search">
+
+		<route id="twitter-search">
 			<from uri="direct:tweetQueue" />
 			<log
 				message="Searching for ${header.searchedMovie} keyword ${header.CamelTwitterKeywords}" />
@@ -58,7 +73,7 @@
 			<from uri="direct:myTweet"></from>
 			<log message="Twitter ${body}" />
 			<to uri="mock:test" />
-		</route> 
+		</route>
 	</camelContext>
 
 </blueprint>
