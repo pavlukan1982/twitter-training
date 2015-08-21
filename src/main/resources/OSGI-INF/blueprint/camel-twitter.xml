@@ -1,49 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Licensed to the Apache Software Foundation (ASF) under one or more contributor 
-	license agreements. See the NOTICE file distributed with this work for additional 
-	information regarding copyright ownership. The ASF licenses this file to 
-	You under the Apache License, Version 2.0 (the "License"); you may not use 
-	this file except in compliance with the License. You may obtain a copy of 
-	the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required 
-	by applicable law or agreed to in writing, software distributed under the 
-	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
-	OF ANY KIND, either express or implied. See the License for the specific 
-	language governing permissions and limitations under the License. -->
+
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
-	
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
+            http://www.osgi.org/xmlns/blueprint/v1.0.0 
+           http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd  
            http://camel.apache.org/schema/blueprint 
-           http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
-
-	<bean id="Status" class="by.pauliukevich.service.MyStatus" />
+           http://camel.apache.org/schema/blueprint/camel-blueprint.xsd"> 
 
 
-	<bean id="googleMailConfig"
+<!-- <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"  -->
+
+
+	<bean id="Status" class="by.pauliukevich.service.MyStatus"/>
+ 
+
+	<bean id="configuration"
 		class="org.apache.camel.component.google.mail.GoogleMailConfiguration">
 		<property name="applicationName" value="fuse-training" />
-		<property name="clientId" value="731646980308-sgbkhn645qumoal8mv8oga8i3506f7sq.apps.googleusercontent.com" />
+		<property name="clientId"
+			value="731646980308-sgbkhn645qumoal8mv8oga8i3506f7sq.apps.googleusercontent.com" />
 		<property name="clientSecret" value="J30wle93fKNyldAFYKNvpFf0" />
-		<property name="refreshToken" value="1/-p0d7S6YYyGBHCikBtpnZY1em35VIAOfHWZI5Pt9exxIgOrJDtdun6zK6XiATCKT" />
+		<property name="refreshToken"
+			value="1/-p0d7S6YYyGBHCikBtpnZY1em35VIAOfHWZI5Pt9exxIgOrJDtdun6zK6XiATCKT" />
+			 <property name="routeBuilder" ref="myRouteBuilder" />
 	</bean>
 
 
-
-
-
-
-	<camelContext id="camel-twitter"
+	<camelContext  id="camel-twitter"
 		xmlns="http://camel.apache.org/schema/blueprint" xmlns:movie="http://fabric8.com/examples/movie">
-		
+
 		<propertyPlaceholder location="classpath:twitter.properties"
 			id="placeholder" />
+
 		
-		<endpoint id="googleMail" uri="google-mail://messages/list?userId=pavlukan1983">
-			<property key="configuration" ref="googleMailConfig"/>
+		<endpoint id="googleMail"
+			uri="google-mail://messages/list?userId=pavlukan1983">
 		</endpoint>
-		
-		
-		
+
+
+
 		<route id="get-file">
 			<from
 				uri="file:work/twitter-training/input?moveFailed=../failed&amp;move=../processed" />
