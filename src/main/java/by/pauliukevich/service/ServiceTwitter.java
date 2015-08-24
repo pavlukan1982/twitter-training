@@ -6,11 +6,11 @@ import org.apache.camel.Produce;
 import org.apache.camel.ProducerTemplate;
 
 import twitter4j.Status;
-import by.pauliukevich.model.MyTweet;
+import by.pauliukevich.model.ModelMessage;
 
-public class MyStatus {
+public class ServiceTwitter {
 
-	@Produce(uri = "direct:myTweet")
+	@Produce(uri = "direct:myModel")
 	private ProducerTemplate producer;
 
 	public ProducerTemplate getProducer() {
@@ -21,12 +21,12 @@ public class MyStatus {
 		this.producer = producer;
 	}
 
-	public void convertToTweet(List<Status> statusList) {
-		MyTweet myTweet = new MyTweet();
+	public void convertToModel(List<Status> statusList) {
+		ModelMessage myModel = new ModelMessage();
 		if (statusList.size() > 0) {
-			myTweet.setMessage(statusList.get(0).getText());
+			myModel.setMessage(statusList.get(0).getText());
 		}
-		producer.sendBody(myTweet);
+		producer.sendBody(myModel);
 
 	}
 

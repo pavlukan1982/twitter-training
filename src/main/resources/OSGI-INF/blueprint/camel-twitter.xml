@@ -10,7 +10,8 @@
 
 
 
-	<bean id="Status" class="by.pauliukevich.service.MyStatus" />
+	<bean id="serviceTwitter" class="by.pauliukevich.service.ServiceTwitter" />
+	<bean id="serviceGoogleMail" class="by.pauliukevich.service.ServiceGoogleMail" />
 
 	<bean id="google-mail"
 		class="org.apache.camel.component.google.mail.GoogleMailComponent">
@@ -39,10 +40,7 @@
 		<route id="googleTest">
 			<from uri="google-mail://messages/list?userId=me&amp;consumer.delay=50000" />
 			<log message="Google mail reques ${body}" />
-			
-						
-			
-			<to uri="mock:test" />
+			<to uri="bean:serviceGoogleMail?method=convertToModel" />
 		</route>
 
 
@@ -69,12 +67,12 @@
 				message="Searching for ${header.searchedMovie} keyword ${header.CamelTwitterKeywords}" />
 			<to
 				uri="twitter://search?accessToken={{access.token}}&amp;accessTokenSecret={{access.token-secret}}&amp;consumerKey={{consumer.key}}&amp;consumerSecret={{consumer.secret}}" />
-			<to uri="bean:Status?method=convertToTweet" />
+			<to uri="bean:serviceTwitter?method=convertToModel" />
 		</route>
 
 		<route id="twitter-convert">
-			<from uri="direct:myTweet"></from>
-			<log message="Twitter ${body}" />
+			<from uri="direct:myModel"></from>
+			<log message="ModelMessage ${body}" />
 			<to uri="mock:test" />
 		</route>
 	</camelContext>

@@ -1,6 +1,6 @@
 package by.pauliukevich.model;
 
-public class MyTweet {
+public class ModelMessage {
 	private String message;
 
 	public String getMessage() {
