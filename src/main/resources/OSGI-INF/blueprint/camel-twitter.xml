@@ -1,42 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camel="http://camel.apache.org/schema/blueprint"
 	xsi:schemaLocation="
-            http://www.osgi.org/xmlns/blueprint/v1.0.0 
+           http://www.osgi.org/xmlns/blueprint/v1.0.0 
            http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd  
            http://camel.apache.org/schema/blueprint 
-           http://camel.apache.org/schema/blueprint/camel-blueprint.xsd"> 
+           http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
 
 
-<!-- <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"  -->
 
 
-	<bean id="Status" class="by.pauliukevich.service.MyStatus"/>
- 
 
-	<bean id="configuration"
-		class="org.apache.camel.component.google.mail.GoogleMailConfiguration">
-		<property name="applicationName" value="fuse-training" />
-		<property name="clientId"
-			value="731646980308-sgbkhn645qumoal8mv8oga8i3506f7sq.apps.googleusercontent.com" />
-		<property name="clientSecret" value="J30wle93fKNyldAFYKNvpFf0" />
-		<property name="refreshToken"
-			value="1/-p0d7S6YYyGBHCikBtpnZY1em35VIAOfHWZI5Pt9exxIgOrJDtdun6zK6XiATCKT" />
-			 <property name="routeBuilder" ref="myRouteBuilder" />
+
+	<bean id="Status" class="by.pauliukevich.service.MyStatus" />
+
+	<bean id="google-mail"
+		class="org.apache.camel.component.google.mail.GoogleMailComponent">
+		<property name="configuration">
+			<bean
+				class="org.apache.camel.component.google.mail.GoogleMailConfiguration">
+				<property name="applicationName" value="fuse-training" />
+				<property name="clientId"
+					value="731646980308-sgbkhn645qumoal8mv8oga8i3506f7sq.apps.googleusercontent.com" />
+				<property name="clientSecret" value="J30wle93fKNyldAFYKNvpFf0" />
+				<property name="refreshToken"
+					value="1/-p0d7S6YYyGBHCikBtpnZY1em35VIAOfHWZI5Pt9exxIgOrJDtdun6zK6XiATCKT" />
+				<property name="accessToken" value="" />
+			</bean>
+		</property>
 	</bean>
 
 
-	<camelContext  id="camel-twitter"
+
+	<camelContext id="camel-twitter"
 		xmlns="http://camel.apache.org/schema/blueprint" xmlns:movie="http://fabric8.com/examples/movie">
 
 		<propertyPlaceholder location="classpath:twitter.properties"
 			id="placeholder" />
 
-		
-		<endpoint id="googleMail"
-			uri="google-mail://messages/list?userId=pavlukan1983">
-		</endpoint>
+
+		<route id="googleTest">
+			<from uri="google-mail://messages/list?userId=pavlukan1983" />
+			<to uri="mock:test" />
+		</route>
 
 
 
