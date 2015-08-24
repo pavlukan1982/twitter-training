@@ -38,6 +38,9 @@
 		<route id="googleTest">
 			<from uri="google-mail://messages/list?userId=pavlukan1983" />
 			
+			<log message="!!!!!!! {body}" logName="camelLog" loggingLevel="INFO" />
+			
+			
 			<to uri="mock:test" />
 		</route>
 
