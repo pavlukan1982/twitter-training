@@ -19,10 +19,11 @@
 				class="org.apache.camel.component.google.mail.GoogleMailConfiguration">
 				<property name="applicationName" value="fuse-training" />
 				<property name="clientId"
-					value="731646980308-sgbkhn645qumoal8mv8oga8i3506f7sq.apps.googleusercontent.com" />
-				<property name="clientSecret" value="J30wle93fKNyldAFYKNvpFf0" />
+					value="594101008393-rsnne6l1qg8b8cdlv0plkm68fm9en4st.apps.googleusercontent.com" />
+				<property name="clientSecret" value="TGAxAjl4Agk00afrBzSuymmK" />
 				<property name="refreshToken"
-					value="1/-p0d7S6YYyGBHCikBtpnZY1em35VIAOfHWZI5Pt9exxIgOrJDtdun6zK6XiATCKT" />
+					value="1/55qZW7fo2gaqnv9R_qVd_NDbpQ5TnMG8lxEZNdDRZpxIgOrJDtdun6zK6XiATCKT" />
+				<property name="accessToken" value="ya29.2QHn9f4HjC7EToobp7miH90AUiQGr0ay8InONUUomQ69IYX89va5zO76ddqGnW3nYUoU" />
 			</bean>
 		</property>
 	</bean>
@@ -36,10 +37,10 @@
 
 
 		<route id="googleTest">
-			<from uri="google-mail://messages/list?userId=pavlukan1983" />
+			<from uri="google-mail://messages/list?userId=me&amp;consumer.delay=50000" />
+			<log message="Google mail reques ${body}" />
 			
-			<log message="!!!!!!! {body}" logName="camelLog" loggingLevel="INFO" />
-			
+						
 			
 			<to uri="mock:test" />
 		</route>
