@@ -10,14 +10,11 @@
 
 
 
-
-
-
 	<bean id="Status" class="by.pauliukevich.service.MyStatus" />
 
 	<bean id="google-mail"
 		class="org.apache.camel.component.google.mail.GoogleMailComponent">
-		<property name="configuration">
+ 		<property name="configuration">
 			<bean
 				class="org.apache.camel.component.google.mail.GoogleMailConfiguration">
 				<property name="applicationName" value="fuse-training" />
@@ -26,11 +23,9 @@
 				<property name="clientSecret" value="J30wle93fKNyldAFYKNvpFf0" />
 				<property name="refreshToken"
 					value="1/-p0d7S6YYyGBHCikBtpnZY1em35VIAOfHWZI5Pt9exxIgOrJDtdun6zK6XiATCKT" />
-				<property name="accessToken" value="" />
 			</bean>
 		</property>
 	</bean>
-
 
 
 	<camelContext id="camel-twitter"
@@ -42,6 +37,7 @@
 
 		<route id="googleTest">
 			<from uri="google-mail://messages/list?userId=pavlukan1983" />
+			
 			<to uri="mock:test" />
 		</route>
 
