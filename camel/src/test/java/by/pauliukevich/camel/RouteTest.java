@@ -41,8 +41,8 @@ public class RouteTest extends CamelBlueprintTestSupport {
 		camelContext.addRoutes(new RouteBuilder() {
 			@Override
 			public void configure() throws Exception {
-				from("google-mail://messages/list?userId=me")
-						.log("Google mail request ${body}")
+				from("direct:from").to("google-mail://messages/list?userId=me")
+						.log("Google mail request ${in.body}")
 						.to("bean:serviceGoogleMail?method=convertToModel")
 						.log("Google result ${body}").to("mock:end");
 
@@ -50,11 +50,13 @@ public class RouteTest extends CamelBlueprintTestSupport {
 
 		});
 
+		template().sendBody("direct:from", "");
+
 	}
 
-	@Override
-	public String isMockEndpointsAndSkip() {
-		return "((direct)):(.*)";
-	}
+	// @Override
+	// public String isMockEndpointsAndSkip() {
+	// return "((direct)):(.*)";
+	// }
 
 }

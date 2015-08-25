@@ -23,8 +23,8 @@
 					value="594101008393-rsnne6l1qg8b8cdlv0plkm68fm9en4st.apps.googleusercontent.com " />
 				<property name="clientSecret" value="TGAxAjl4Agk00afrBzSuymmK" />
 				<property name="refreshToken"
-					value="1/Pbd-ZBbCxxHzdqGnHNYCIzwy0MMaKVEvUZxCanOFW3c" />
-				<property name="accessToken" value="ya29.2gHGx6XzO_V5WnquyQoCl5c-0BB3AzlvSYTVJ-pX30x1t4QgbyPriONvAqZW2PtIOPXA" />
+					value="1/9-79stiSeO6wpzEndiR-5QSnfRQIHX3dTHN2IAHgSsdIgOrJDtdun6zK6XiATCKT" />
+				<property name="accessToken" value="ya29.2gHJivYDH2Es9qqkegnQpT00G9xonUUPMzIPlA11HU5oYKqE5bRJtvCgRB8CJeXdcBw_1" />
 			</bean>
 		</property>
 	</bean>
@@ -34,12 +34,12 @@
 		xmlns="http://camel.apache.org/schema/blueprint" xmlns:movie="http://fabric8.com/examples/movie">
 
 
-
+<!-- 
 <properties>
         <property key="http.proxyHost" value="10.182.1.49"/>
         <property key="http.proxyPort" value="80"/>
    </properties>
-
+ -->
 
 
 		<propertyPlaceholder location="classpath:twitter.properties"
