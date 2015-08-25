@@ -1,6 +1,5 @@
 package by.pauliukevich.camel;
 
-
 import java.io.File;
 
 import org.apache.camel.CamelContext;
@@ -34,9 +33,10 @@ public class RouteTest extends CamelBlueprintTestSupport {
 		assertMockEndpointsSatisfied();
 	}
 
+	@Test
 	public void testGoogleMail() throws Exception {
 
-		CamelContext camelContext = createCamelContext();
+		CamelContext camelContext = context();
 
 		camelContext.addRoutes(new RouteBuilder() {
 			@Override
@@ -50,7 +50,6 @@ public class RouteTest extends CamelBlueprintTestSupport {
 
 		});
 
-		camelContext.start();
 	}
 
 	@Override
