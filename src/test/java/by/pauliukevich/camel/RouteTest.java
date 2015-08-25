@@ -2,6 +2,8 @@ package by.pauliukevich.camel;
 
 import java.io.File;
 
+import org.apache.camel.CamelContext;
+import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.test.blueprint.CamelBlueprintTestSupport;
 import org.junit.Test;
 
@@ -29,6 +31,25 @@ public class RouteTest extends CamelBlueprintTestSupport {
 		template().sendBody("file:work/twitter-training/input", testFile);
 
 		assertMockEndpointsSatisfied();
+	}
+
+	public void testGoogleMail() throws Exception {
+
+		CamelContext camelContext = createCamelContext();
+
+		camelContext.addRoutes(new RouteBuilder() {
+			@Override
+			public void configure() throws Exception {
+				from("google-mail://messages/list?userId=me")
+						.log("Google mail request ${body}")
+						.to("bean:serviceGoogleMail?method=convertToModel")
+						.log("Google result ${body}").to("mock:end");
+
+			}
+
+		});
+
+		camelContext.start();
 	}
 
 	@Override

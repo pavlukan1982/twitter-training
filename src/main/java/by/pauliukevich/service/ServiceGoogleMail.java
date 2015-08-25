@@ -7,7 +7,6 @@ import by.pauliukevich.model.ModelMessage;
 
 import com.google.api.services.gmail.model.ListMessagesResponse;
 import com.google.api.services.gmail.model.Message;
-import com.google.api.services.gmail.model.MessagePartHeader;
 
 public class ServiceGoogleMail {
 
@@ -27,11 +26,14 @@ public class ServiceGoogleMail {
 		ModelMessage myModel = new ModelMessage();
 
 		for (Message message : messageList.getMessages()) {
-
-			for (MessagePartHeader header : message.getPayload().getHeaders()) {
-				myModel.setMessage(header.getName());
-				producer.sendBody(myModel);
+			if (message != null) {
+				producer.sendBody(message.getRaw());
 			}
+			// for (MessagePartHeader header :
+			// message.getPayload().getHeaders()) {
+			// myModel.setMessage(header.getName());
+			// producer.sendBody(myModel);
+			// }
 		}
 	}
 
