@@ -5,50 +5,30 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>by.pauliukevich</groupId>
-	<artifactId>camel-training</artifactId>
+	<artifactId>camel</artifactId>
+	<packaging>bundle</packaging>
 	<version>1.0</version>
-	<packaging>pom</packaging>
 
-	<name>Camel :: Training</name>
+	<name>Camel :: Routes</name>
 
-	<modules>
-		<module>camel</module>
-	</modules>
-
-	<properties>
-
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<maven.compiler.source>1.8</maven.compiler.source>
-
-		<camel.version>2.15.1.redhat-620133</camel.version>
-		<slf4j.version>1.7.12</slf4j.version>
-
-
-		<jboss.fuse.bom.version>6.2.0.redhat-133</jboss.fuse.bom.version>
-		<!-- the version of the BOM, defining all the dependency versions -->
-
-		<fabric8.bom.version>1.2.0.redhat-133</fabric8.bom.version>
-		<fabric.version>1.2.0.redhat-133</fabric.version>
-
-		<felix.bundle.plugin.version>2.5.4</felix.bundle.plugin.version>
-
-	</properties>
-
-<dependencyManagement>
+	<parent>
+		<groupId>by.pauliukevich</groupId>
+		<artifactId>camel-training</artifactId>
+		<version>1.0</version>
+	</parent>
+	
 	<dependencies>
 
 
 		<dependency>
 			<groupId>org.jboss.fuse.bom</groupId>
 			<artifactId>jboss-fuse-parent</artifactId>
-			<version>${jboss.fuse.bom.version}</version>
 			<type>pom</type>
 		</dependency>
 
 		<dependency>
 			<groupId>io.fabric8.bom</groupId>
 			<artifactId>fabric8-bom</artifactId>
-			<version>${fabric8.bom.version}</version>
 			<type>pom</type>
 		</dependency>
 
@@ -56,80 +36,65 @@
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-core</artifactId>
-			<version>${camel.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-blueprint</artifactId>
-			<version>${camel.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-google-mail</artifactId>
-			<version>${camel.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.twitter4j</groupId>
 			<artifactId>twitter4j-core</artifactId>
-			<version>4.0.4</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-test-blueprint</artifactId>
-			<version>${camel.version}</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-twitter</artifactId>
-			<version>${camel.version}</version>
 			<scope>test</scope>
 		</dependency>
-
-
-
 
 
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
-			<version>2.3</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
 			<scope>test</scope>
 		</dependency>
 
-
+		
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-slf4j-impl</artifactId>
-			<version>2.3</version>
 		</dependency>
 
 	</dependencies>
-</dependencyManagement>
+
 
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
-				<version>${felix.bundle.plugin.version}</version>
+				<extensions>true</extensions>
 			</plugin>
 		</plugins>
 	</build>
-
-
-
 
 </project>

@@ -1,5 +1,6 @@
 package by.pauliukevich.camel;
 
+
 import java.io.File;
 
 import org.apache.camel.CamelContext;
