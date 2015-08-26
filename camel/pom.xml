@@ -4,10 +4,8 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>by.pauliukevich</groupId>
 	<artifactId>camel</artifactId>
 	<packaging>bundle</packaging>
-	<version>1.0</version>
 
 	<name>Camel :: Routes</name>
 
@@ -16,7 +14,7 @@
 		<artifactId>camel-training</artifactId>
 		<version>1.0</version>
 	</parent>
-	
+
 	<dependencies>
 
 
@@ -78,13 +76,39 @@
 			<scope>test</scope>
 		</dependency>
 
-		
+
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-slf4j-impl</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 
+
+		<!-- Pax Exam -->
+		<dependency>
+			<groupId>org.ops4j.pax.exam</groupId>
+			<artifactId>pax-exam-container-karaf</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.ops4j.pax.exam</groupId>
+			<artifactId>pax-exam-junit4</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.ops4j.pax.exam</groupId>
+			<artifactId>pax-exam-inject</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Karaf -->
+		<dependency>
+			<groupId>org.apache.karaf</groupId>
+			<artifactId>apache-karaf</artifactId>
+			<type>tar.gz</type>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 
