@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<features name="camel-training" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
+<features name="feature" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
    
    
     <feature name="camel-training-camel" version="${project.version}">
-        <bundle>mvn:by.pauliukevich/camel/${project.version}</bundle>
+        <bundle>mvn:by.pauliukevich/camel/1.0</bundle>
     </feature>
 
 </features>

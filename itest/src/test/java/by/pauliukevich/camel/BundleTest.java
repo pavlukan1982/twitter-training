@@ -37,17 +37,16 @@ public class BundleTest extends CamelTestSupport {
 						features(
 								maven().groupId("org.apache.camel.karaf").artifactId("apache-camel").type("xml")
 								.classifier("features").version("2.15.1.redhat-620133"), "camel-blueprint",
-						"camel-test"), keepRuntimeFolder() };
-		// ,
-		// features(maven().groupId("by.pauliukevich").artifactId("feature").type("xml").classifier("features")
-		// .version("1.0"), "camel-training-camel")
+						"camel-test"),
+								features(maven().groupId("by.pauliukevich").artifactId("feature").type("xml").classifier("features")
+										.version("1.0"), "camel-training"), keepRuntimeFolder() };
 	}
 
 	@Test
 	public void testProvisioning() throws Exception {
 
 		assertTrue(featuresService.isInstalled(featuresService.getFeature("camel-blueprint")));
-		// assertTrue(featuresService.isInstalled(featuresService.getFeature("camel-training-camel")));
+		assertTrue(featuresService.isInstalled(featuresService.getFeature("feature")));
 
 	}
 
