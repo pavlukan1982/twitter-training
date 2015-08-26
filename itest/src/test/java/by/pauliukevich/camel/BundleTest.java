@@ -22,18 +22,17 @@ public class BundleTest extends CamelTestSupport {
 	public static Option[] configure() throws Exception {
 		return new Option[] {
 				karafDistributionConfiguration()
-						.frameworkUrl(
-								maven().groupId("org.apache.karaf").artifactId("apache-karaf").type("tar.gz")
-										.version("4.0.1")).karafVersion("4.0.1").useDeployFolder(false)
+				.frameworkUrl(
+						maven().groupId("org.apache.karaf").artifactId("apache-karaf").type("tar.gz")
+						.version("4.0.1")).karafVersion("4.0.1").useDeployFolder(false)
 						.unpackDirectory(new File("target/paxexam/unpack")),
-				logLevel(LogLevelOption.LogLevel.WARN),
-				features(
-						maven().groupId("org.apache.camel.karaf").artifactId("apache-camel").type("xml")
-								.classifier("features").version("2.12.1"), "camel-blueprint", "camel-test"),
-				features(
-						maven().groupId("net.nanthrax.blog").artifactId("camel-blueprint").type("xml")
-								.classifier("features").version("1.0-SNAPSHOT"), "blog-camel-blueprint-route"),
-				keepRuntimeFolder() };
+						logLevel(LogLevelOption.LogLevel.WARN),
+						features(
+								maven().groupId("org.apache.camel.karaf").artifactId("apache-camel").type("xml")
+								.classifier("features").version("2.15.1.redhat-620133"), "camel-blueprint",
+						"camel-test"),
+								features(maven().groupId("by.pauliukevich").artifactId("feature").type("xml").classifier("features")
+						.version("1.0"), "blog-camel-blueprint-route"), keepRuntimeFolder() };
 	}
 
 }
