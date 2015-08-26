@@ -1,5 +1,8 @@
 package by.pauliukevich.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.camel.Produce;
 import org.apache.camel.ProducerTemplate;
 
@@ -7,10 +10,11 @@ import by.pauliukevich.model.ModelMessage;
 
 import com.google.api.services.gmail.model.ListMessagesResponse;
 import com.google.api.services.gmail.model.Message;
+import com.google.api.services.gmail.model.MessagePartHeader;
 
 public class ServiceGoogleMail {
 
-	@Produce(uri = "direct:myModel")
+	@Produce
 	private ProducerTemplate producer;
 
 	public ProducerTemplate getProducer() {
@@ -21,19 +25,30 @@ public class ServiceGoogleMail {
 		this.producer = producer;
 	}
 
-	public void convertToModel(ListMessagesResponse messageList) {
-
-		ModelMessage myModel = new ModelMessage();
+	public void splitToMessage(ListMessagesResponse messageList) {
 
 		for (Message message : messageList.getMessages()) {
 			if (message != null) {
-				producer.sendBody(message.getRaw());
+
+				Map<String, Object> requestParam = new HashMap<>();
+
+				requestParam.put("CamelGoogleMail.userId", "me");
+				requestParam.put("CamelGoogleMail.id", message.getId());
+
+				producer.sendBodyAndHeaders("direct:googleMessage", message.getId(), requestParam);
 			}
-			// for (MessagePartHeader header :
-			// message.getPayload().getHeaders()) {
-			// myModel.setMessage(header.getName());
-			// producer.sendBody(myModel);
-			// }
+		}
+	}
+
+	public void convertToModel(Message message) {
+
+		ModelMessage myModel = new ModelMessage();
+
+		for (MessagePartHeader header : message.getPayload().getHeaders()) {
+			if ("Subject".equals(header.getName())) {
+				myModel.setMessage(header.getValue());
+				producer.sendBody("direct:myModel", myModel);
+			}
 		}
 	}
 

@@ -15,7 +15,7 @@
 
 	<bean id="google-mail"
 		class="org.apache.camel.component.google.mail.GoogleMailComponent">
- 		<property name="configuration">
+		<property name="configuration">
 			<bean
 				class="org.apache.camel.component.google.mail.GoogleMailConfiguration">
 				<property name="applicationName" value="fuse-training" />
@@ -23,14 +23,15 @@
 					value="594101008393-rsnne6l1qg8b8cdlv0plkm68fm9en4st.apps.googleusercontent.com " />
 				<property name="clientSecret" value="TGAxAjl4Agk00afrBzSuymmK" />
 				<property name="refreshToken"
-					value="1/DDmYdCDUjxvDzHslc4xJi0RehBcS-DrX6Bx6iz_zQe5IgOrJDtdun6zK6XiATCKT" />
-				<property name="accessToken" value="ya29.2wETkSJBVyIycbyMck6v7jn1I4GzY1iAQVaWmLe0E-1m_YYGyhMH9MMlqIHihoYnl5tg" />
+					value="1/M8hpsrt8cm-krMWKIHftjqttPPFoms4Mu8t2bKZUt2w" />
+				<property name="accessToken"
+					value="ya29.2wFAF7UkKHPgQn2PVfIG3TOi8XPdc9YZbdDH-h_Qc_TPyVAX9zmifor3NdbeJl59FoNO" />
 			</bean>
 		</property>
 	</bean>
 
 
-	<camelContext id="camel-twitter"
+	<camelContext id="camel-training"
 		xmlns="http://camel.apache.org/schema/blueprint" xmlns:movie="http://fabric8.com/examples/movie">
 
 
@@ -38,14 +39,20 @@
 		<propertyPlaceholder location="classpath:twitter.properties"
 			id="placeholder" />
 
- 
-		<route id="googleTest">
-			<from uri="google-mail://messages/list?userId=me&amp;consumer.delay=50000" />
-			<log message="Google mail request ${body}" />
-			<to uri="bean:serviceGoogleMail?method=convertToModel" />
 
+		<route id="googleSplitMessages">
+			<from
+				uri="google-mail://messages/list?userId=me&amp;consumer.delay=50000" />
+			<log message="Google mail request ${body}" />
+			<to uri="bean:serviceGoogleMail?method=splitToMessage" />
 		</route>
- 
+
+		<route id="processGoogleMessage">
+			<from uri="direct:googleMessage" />
+			<log message="Google message id ${body}" />
+			<to uri="google-mail://messages/get" />
+			<to uri="bean:serviceGoogleMail?method=convertToModel" />
+		</route>
 
 
 		<route id="get-file">
@@ -63,17 +70,16 @@
 				<to uri="direct:tweetQueue" />
 			</split>
 		</route>
-
 		<route id="twitter-search">
 			<from uri="direct:tweetQueue" />
 			<log
-				message="Searching for ${header.searchedMovie} keyword ${header.CamelTwitterKeywords}" />
+				message="Searching for ${header.searchedMovie} 
+			keyword ${header.CamelTwitterKeywords}" />
 			<to
 				uri="twitter://search?accessToken={{access.token}}&amp;accessTokenSecret={{access.token-secret}}&amp;consumerKey={{consumer.key}}&amp;consumerSecret={{consumer.secret}}" />
 			<to uri="bean:serviceTwitter?method=convertToModel" />
 		</route>
-
-		<route id="twitter-convert">
+		<route id="convertToModel">
 			<from uri="direct:myModel"></from>
 			<log message="ModelMessage ${body}" />
 			<to uri="mock:test" />

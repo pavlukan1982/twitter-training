@@ -34,36 +34,15 @@ public class RouteTest extends CamelBlueprintTestSupport {
 	public void testGoogleMailRoute() throws Exception {
 
 		// return only list of message id
-		getMockEndpoint("mock:google-mail://messages/list").expectedMessageCount(1);
-
-		template().sendBody("google-mail://messages/list", "");
+		template().sendBodyAndHeader("google-mail://messages/list", "", "CamelGoogleMail.userId", "me");
 
 		assertMockEndpointsSatisfied();
 
 	}
 
-	// @Test
-	// public void testGoogleMail() throws Exception {
-	//
-	// CamelContext camelContext = context();
-	//
-	// camelContext.addRoutes(new RouteBuilder() {
 	// @Override
-	// public void configure() throws Exception {
-	// from("direct:from").to("google-mail://messages/list?userId=me").log("Google mail request ${in.body}")
-	// .to("bean:serviceGoogleMail?method=convertToModel").log("Google result ${body}").to("mock:end");
-	//
+	// public String isMockEndpointsAndSkip() {
+	// return "((direct)):(.*)";
 	// }
-	//
-	// });
-	//
-	// template().sendBody("direct:from", "");
-	//
-	// }
-
-	@Override
-	public String isMockEndpointsAndSkip() {
-		return "((direct)):(.*)";
-	}
 
 }
