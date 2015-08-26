@@ -2,8 +2,6 @@ package by.pauliukevich.camel;
 
 import java.io.File;
 
-import org.apache.camel.CamelContext;
-import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.test.blueprint.CamelBlueprintTestSupport;
 import org.junit.Test;
 
@@ -25,8 +23,7 @@ public class RouteTest extends CamelBlueprintTestSupport {
 		getMockEndpoint("mock:direct:tweetQueue").expectedMessageCount(2);
 
 		ClassLoader classLoader = getClass().getClassLoader();
-		File testFile = new File(classLoader.getResource("data/movies.xml")
-				.getFile());
+		File testFile = new File(classLoader.getResource("data/movies.xml").getFile());
 
 		template().sendBody("file:work/twitter-training/input", testFile);
 
@@ -34,29 +31,39 @@ public class RouteTest extends CamelBlueprintTestSupport {
 	}
 
 	@Test
-	public void testGoogleMail() throws Exception {
+	public void testGoogleMailRoute() throws Exception {
 
-		CamelContext camelContext = context();
+		// return only list of message id
+		getMockEndpoint("mock:google-mail://messages/list").expectedMessageCount(1);
 
-		camelContext.addRoutes(new RouteBuilder() {
-			@Override
-			public void configure() throws Exception {
-				from("direct:from").to("google-mail://messages/list?userId=me")
-						.log("Google mail request ${in.body}")
-						.to("bean:serviceGoogleMail?method=convertToModel")
-						.log("Google result ${body}").to("mock:end");
+		template().sendBody("google-mail://messages/list", "");
 
-			}
-
-		});
-
-		template().sendBody("direct:from", "");
+		assertMockEndpointsSatisfied();
 
 	}
 
+	// @Test
+	// public void testGoogleMail() throws Exception {
+	//
+	// CamelContext camelContext = context();
+	//
+	// camelContext.addRoutes(new RouteBuilder() {
 	// @Override
-	// public String isMockEndpointsAndSkip() {
-	// return "((direct)):(.*)";
+	// public void configure() throws Exception {
+	// from("direct:from").to("google-mail://messages/list?userId=me").log("Google mail request ${in.body}")
+	// .to("bean:serviceGoogleMail?method=convertToModel").log("Google result ${body}").to("mock:end");
+	//
 	// }
+	//
+	// });
+	//
+	// template().sendBody("direct:from", "");
+	//
+	// }
+
+	@Override
+	public String isMockEndpointsAndSkip() {
+		return "((direct)):(.*)";
+	}
 
 }

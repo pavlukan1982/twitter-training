@@ -84,31 +84,14 @@
 		</dependency>
 
 
+<dependency>
+	<groupId>com.fasterxml.jackson.core</groupId>
+	<artifactId>jackson-core</artifactId>
+	<version>2.6.1</version>
+</dependency>
 
-		<!-- Pax Exam -->
-		<dependency>
-			<groupId>org.ops4j.pax.exam</groupId>
-			<artifactId>pax-exam-container-karaf</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.ops4j.pax.exam</groupId>
-			<artifactId>pax-exam-junit4</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.ops4j.pax.exam</groupId>
-			<artifactId>pax-exam-inject</artifactId>
-			<scope>test</scope>
-		</dependency>
 
-		<!-- Karaf -->
-		<dependency>
-			<groupId>org.apache.karaf</groupId>
-			<artifactId>apache-karaf</artifactId>
-			<type>tar.gz</type>
-			<scope>test</scope>
-		</dependency>
+		
 	</dependencies>
 
 
