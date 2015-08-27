@@ -20,12 +20,12 @@
 				class="org.apache.camel.component.google.mail.GoogleMailConfiguration">
 				<property name="applicationName" value="fuse-training" />
 				<property name="clientId"
-					value="594101008393-rsnne6l1qg8b8cdlv0plkm68fm9en4st.apps.googleusercontent.com " />
-				<property name="clientSecret" value="TGAxAjl4Agk00afrBzSuymmK" />
+					value="594101008393-hkq007ebdjnaq568o4qrq1ho0ql6jqbo.apps.googleusercontent.com" />
+				<property name="clientSecret" value="9B8i-CS-o54KGCRBT0N6zYYG" />
 				<property name="refreshToken"
-					value="1/M8hpsrt8cm-krMWKIHftjqttPPFoms4Mu8t2bKZUt2w" />
+					value="1/6ZLHC31RHi5-4HMQyxw36pRZXUorocBF7-1kbcCsXtU" />
 				<property name="accessToken"
-					value="ya29.2wFAF7UkKHPgQn2PVfIG3TOi8XPdc9YZbdDH-h_Qc_TPyVAX9zmifor3NdbeJl59FoNO" />
+					value="ya29.3AGzs2IluUJqTm17PFHSNyO9ikwwV-FgW5tbkmv1Yp-nsWbwVY2TtfWIGdFdQ9m_2vxH" />
 			</bean>
 		</property>
 	</bean>
