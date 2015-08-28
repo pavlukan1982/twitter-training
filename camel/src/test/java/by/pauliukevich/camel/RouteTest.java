@@ -40,9 +40,9 @@ public class RouteTest extends CamelBlueprintTestSupport {
 
 	}
 
-	// @Override
-	// public String isMockEndpointsAndSkip() {
-	// return "((direct)):(.*)";
-	// }
+	@Override
+	public String isMockEndpointsAndSkip() {
+		return "((direct)):(.*)";
+	}
 
 }
