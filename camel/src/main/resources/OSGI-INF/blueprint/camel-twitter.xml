@@ -7,16 +7,10 @@
 	http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.0.0 http://aries.apache.org/schemas/blueprint-cm/blueprint-cm-1.0.0.xsd 
              http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
 
-<!-- 
-	<cm:property-placeholder persistent-id="googleProperties"
-		update-strategy="reload">
+	<!-- <cm:property-placeholder persistent-id="googleProperties" update-strategy="reload"> 
+		<cm:default-properties> <cm:property name="blueprintProperties" value="google.properties" 
+		/> </cm:default-properties> </cm:property-placeholder> -->
 
-		<cm:default-properties>
-			<cm:property name="blueprintProperties" value="google.properties" />
-		</cm:default-properties>
-	</cm:property-placeholder>
- -->
- 
 	<bean id="serviceTwitter" class="by.pauliukevich.service.ServiceTwitter" />
 	<bean id="serviceGoogleMail" class="by.pauliukevich.service.ServiceGoogleMail" />
 
@@ -46,13 +40,29 @@
 		<propertyPlaceholder location="classpath:twitter.properties"
 			id="placeholder" />
 
-
+		<onException>
+			<exception>org.apache.camel.RuntimeCamelException</exception>
+			<redeliveryPolicy maximumRedeliveries="0" />
+			<handled>
+				<constant>true</constant>
+			</handled>
+			<log message="Empty message list" />
+			<to uri="mock:error" />
+		</onException>
+		
 		<route id="googleSplitMessages">
 			<from
 				uri="google-mail://messages/list?userId=me&amp;consumer.delay=50000" />
 			<log message="Google mail request ${body}" />
 			<to uri="bean:serviceGoogleMail?method=splitToMessage" />
 		</route>
+
+
+
+		<!-- <route id="googleSplitMessages"> <from uri="google-mail://messages/list?userId=me&amp;consumer.delay=50000" 
+			/> <doTry> <log message="Google mail request ${body}" /> <to uri="bean:serviceGoogleMail?method=splitToMessage" 
+			/> </doTry> <doCatch> <exception>org.apache.camel.RuntimeCamelException</exception> 
+			<to uri="mock:error" /> </doCatch> </route> -->
 
 		<route id="processGoogleMessage">
 			<from uri="direct:googleMessage" />
@@ -87,7 +97,7 @@
 				uri="twitter://search?accessToken={{access.token}}&amp;accessTokenSecret={{access.token-secret}}&amp;consumerKey={{consumer.key}}&amp;consumerSecret={{consumer.secret}}" />
 			<to uri="bean:serviceTwitter?method=convertToModel" />
 		</route>
-		
+
 		<route id="convertToModel">
 			<from uri="direct:myModel"></from>
 			<log message="ModelMessage ${body}" />

@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<features name="feature" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
-   
-   
-    <feature name="camel-training-camel" version="${project.version}">
-        <bundle>mvn:by.pauliukevich/camel/1.0</bundle>
-    </feature>
+<features name="feature" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.0.0 http://karaf.apache.org/xmlns/features/v1.0.0">
+
+	<feature>
+		camel-blueprint
+	</feature>
+	<feature>
+		camel-twitter
+	</feature>
+	<feature>
+		camel-google-mail
+	</feature>
+	<feature>
+		feature-camel
+	</feature>
+
+	<bundle>mvn:by.pauliukevich/camel/1.0</bundle>
+
 
 </features>

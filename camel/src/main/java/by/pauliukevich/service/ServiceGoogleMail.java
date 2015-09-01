@@ -28,7 +28,7 @@ public class ServiceGoogleMail {
 
 	public void splitToMessage(ListMessagesResponse messageList) {
 
-		if (messageList != null) {
+		if (messageList.getResultSizeEstimate() != null) {
 			for (Message message : messageList.getMessages()) {
 				if (message != null) {
 
@@ -42,7 +42,7 @@ public class ServiceGoogleMail {
 			}
 		} else {
 
-			throw new RuntimeCamelException();
+			throw new RuntimeCamelException("Empty google list message response");
 
 		}
 	}

@@ -6,6 +6,8 @@ import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.test.blueprint.CamelBlueprintTestSupport;
 import org.junit.Test;
 
+import com.google.api.services.gmail.model.ListMessagesResponse;
+
 public class RouteTest extends CamelBlueprintTestSupport {
 
 	@Override
@@ -46,6 +48,11 @@ public class RouteTest extends CamelBlueprintTestSupport {
 	}
 
 	@Test
+	public void testGoogleMailException() throws Exception {
+
+		template().sendBody("bean:serviceGoogleMail", new ListMessagesResponse());
+	}
+
 	@Override
 	public String isMockEndpoints() {
 		return "*";
