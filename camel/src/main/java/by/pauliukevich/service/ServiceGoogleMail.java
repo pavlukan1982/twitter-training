@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.camel.Produce;
 import org.apache.camel.ProducerTemplate;
+import org.apache.camel.RuntimeCamelException;
 
 import by.pauliukevich.model.ModelMessage;
 
@@ -27,16 +28,22 @@ public class ServiceGoogleMail {
 
 	public void splitToMessage(ListMessagesResponse messageList) {
 
-		for (Message message : messageList.getMessages()) {
-			if (message != null) {
+		if (messageList != null) {
+			for (Message message : messageList.getMessages()) {
+				if (message != null) {
 
-				Map<String, Object> requestParam = new HashMap<>();
+					Map<String, Object> requestParam = new HashMap<>();
 
-				requestParam.put("CamelGoogleMail.userId", "me");
-				requestParam.put("CamelGoogleMail.id", message.getId());
+					requestParam.put("CamelGoogleMail.userId", "me");
+					requestParam.put("CamelGoogleMail.id", message.getId());
 
-				producer.sendBodyAndHeaders("direct:googleMessage", message.getId(), requestParam);
+					producer.sendBodyAndHeaders("direct:googleMessage", message.getId(), requestParam);
+				}
 			}
+		} else {
+
+			throw new RuntimeCamelException();
+
 		}
 	}
 

@@ -2,6 +2,7 @@ package by.pauliukevich.camel;
 
 import java.io.File;
 
+import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.test.blueprint.CamelBlueprintTestSupport;
 import org.junit.Test;
 
@@ -33,6 +34,10 @@ public class RouteTest extends CamelBlueprintTestSupport {
 	@Test
 	public void testGoogleMailRoute() throws Exception {
 
+		MockEndpoint mockEndpoint = getMockEndpoint("mock:bean:serviceGoogleMail");
+		mockEndpoint.setAssertPeriod(50);
+		mockEndpoint.expectedMessageCount(1);
+
 		// return only list of message id
 		template().sendBodyAndHeader("google-mail://messages/list", "", "CamelGoogleMail.userId", "me");
 
@@ -40,9 +45,10 @@ public class RouteTest extends CamelBlueprintTestSupport {
 
 	}
 
+	@Test
 	@Override
-	public String isMockEndpointsAndSkip() {
-		return "((direct):(.*))";
+	public String isMockEndpoints() {
+		return "*";
 	}
 
 }
