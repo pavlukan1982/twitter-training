@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.apache.camel.Produce;
 import org.apache.camel.ProducerTemplate;
-import org.apache.camel.RuntimeCamelException;
 
 import by.pauliukevich.model.ModelMessage;
 
@@ -26,7 +25,7 @@ public class ServiceGoogleMail {
 		this.producer = producer;
 	}
 
-	public void splitToMessage(ListMessagesResponse messageList) {
+	public void splitToMessage(ListMessagesResponse messageList) throws GoogleMessageException {
 
 		if (messageList.getResultSizeEstimate() != null) {
 			for (Message message : messageList.getMessages()) {
@@ -42,7 +41,7 @@ public class ServiceGoogleMail {
 			}
 		} else {
 
-			throw new RuntimeCamelException("Empty google list message response");
+			throw new GoogleMessageException("Empty google list message response");
 
 		}
 	}
@@ -58,5 +57,4 @@ public class ServiceGoogleMail {
 			}
 		}
 	}
-
 }

@@ -14,6 +14,9 @@
 	<bean id="serviceTwitter" class="by.pauliukevich.service.ServiceTwitter" />
 	<bean id="serviceGoogleMail" class="by.pauliukevich.service.ServiceGoogleMail" />
 
+	<bean id="myErrorHandler" class="by.pauliukevich.service.MyErrorHandler" />
+
+
 	<bean id="google-mail"
 		class="org.apache.camel.component.google.mail.GoogleMailComponent">
 		<property name="configuration">
@@ -31,25 +34,20 @@
 		</property>
 	</bean>
 
-
-	<camelContext id="camel-training"
+	<camelContext id="camel-training" errorHandlerRef="myErrorHandler"
 		xmlns="http://camel.apache.org/schema/blueprint" xmlns:movie="http://fabric8.com/examples/movie">
-
-
 
 		<propertyPlaceholder location="classpath:twitter.properties"
 			id="placeholder" />
 
+
 		<onException>
-			<exception>org.apache.camel.RuntimeCamelException</exception>
-			<redeliveryPolicy maximumRedeliveries="0" />
-			<handled>
-				<constant>true</constant>
-			</handled>
-			<log message="Empty message list" />
-			<to uri="mock:error" />
+			<exception>by.pauliukevich.service.GoogleMessageException</exception>
+			<to uri="bean:myErrorHandler?method=messageFailed" />
+			<log message="Error response list" />
 		</onException>
-		
+
+
 		<route id="googleSplitMessages">
 			<from
 				uri="google-mail://messages/list?userId=me&amp;consumer.delay=50000" />
