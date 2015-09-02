@@ -34,7 +34,7 @@
 		</property>
 	</bean>
 
-	<camelContext id="camel-training" errorHandlerRef="myErrorHandler"
+	<camelContext id="camel-training"
 		xmlns="http://camel.apache.org/schema/blueprint" xmlns:movie="http://fabric8.com/examples/movie">
 
 		<propertyPlaceholder location="classpath:twitter.properties"
@@ -43,7 +43,12 @@
 
 		<onException>
 			<exception>by.pauliukevich.service.GoogleMessageException</exception>
-			<to uri="bean:myErrorHandler?method=messageFailed" />
+
+			<camel:exception>org.apache.camel.RuntimeCamelException</camel:exception>
+
+			<camel:handled><constant>true</constant></camel:handled>
+			<to uri="mock:error" />
+<!-- 			<to uri="bean:myErrorHandler?method=messageFailed" /> -->
 			<log message="Error response list" />
 		</onException>
 
