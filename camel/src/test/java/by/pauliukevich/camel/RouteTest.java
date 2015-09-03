@@ -35,8 +35,7 @@ public class RouteTest extends CamelBlueprintTestSupport {
 	public void testGoogleMailRoute() throws Exception {
 
 		MockEndpoint mockEndpoint = getMockEndpoint("mock:bean:serviceGoogleMail");
-		mockEndpoint.setAssertPeriod(50);
-		mockEndpoint.expectedMessageCount(1);
+		mockEndpoint.expectedMessageCount(14);
 
 		// return only list of message id
 		template().sendBodyAndHeader("google-mail://messages/list", "", "CamelGoogleMail.userId", "me");
@@ -47,7 +46,8 @@ public class RouteTest extends CamelBlueprintTestSupport {
 
 	@Test
 	public void testGoogleMailException() throws Exception {
-		template().sendBody("google-mail://messages/list", "");
+		// template().sendBody("google-mail://messages/list", "");
+		template.sendBody("direct:testexc", "");
 
 		// template().sendBody("bean:serviceGoogleMail", new
 		// ListMessagesResponse());
@@ -55,7 +55,7 @@ public class RouteTest extends CamelBlueprintTestSupport {
 
 	@Override
 	public String isMockEndpoints() {
-		return "*";
+		return "direct:tweetQueue|bean:serviceGoogleMail(.)*";
 	}
 
 }
