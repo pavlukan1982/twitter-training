@@ -5,7 +5,6 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>feature</artifactId>
-	<packaging>pom</packaging>
 
 	<name>Camel :: Features</name>
 
