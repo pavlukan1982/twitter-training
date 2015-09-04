@@ -46,8 +46,8 @@ public class RouteTest extends CamelBlueprintTestSupport {
 
 	@Test
 	public void testGoogleMailException() throws Exception {
-		// template().sendBody("google-mail://messages/list", "");
-		template.sendBody("direct:testexc", "");
+		template().sendBody("google-mail://messages/list", "");
+		// template.sendBody("direct:testexc", "");
 
 		// template().sendBody("bean:serviceGoogleMail", new
 		// ListMessagesResponse());
