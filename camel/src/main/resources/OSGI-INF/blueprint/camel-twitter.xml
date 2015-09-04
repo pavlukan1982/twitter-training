@@ -15,6 +15,7 @@
 	<bean id="serviceGoogleMail" class="by.pauliukevich.service.ServiceGoogleMail" />
 
 	<bean id="myErrorHandler" class="by.pauliukevich.service.MyErrorHandler" />
+	<bean id="gme" class="by.pauliukevich.service.GoogleMessageException" />
 
 
 	<bean id="google-mail"
@@ -43,19 +44,24 @@
 
 		<onException>
 			<exception>by.pauliukevich.service.GoogleMessageException</exception>
-
 			<camel:exception>org.apache.camel.RuntimeCamelException</camel:exception>
 
-			<camel:handled><constant>true</constant></camel:handled>
+			<camel:handled>
+				<constant>true</constant>
+			</camel:handled>
 			<to uri="mock:error" />
-<!-- 			<to uri="bean:myErrorHandler?method=messageFailed" /> -->
+			<!-- <to uri="bean:myErrorHandler?method=messageFailed" /> -->
 			<log message="Error response list" />
 		</onException>
 
+		<route id="throwException">
+			<from uri="direct:throwException" />
+			<camel:throwException ref="gme" />
+		</route>
 
 		<route id="googleSplitMessages">
-			<from
-				uri="google-mail://messages/list?userId=me&amp;consumer.delay=50000" />
+			<from uri="direct:googleSplitMessages" />
+			<to uri="google-mail://messages/list?userId=me&amp;consumer.delay=50000" />
 			<log message="Google mail request ${body}" />
 			<to uri="bean:serviceGoogleMail?method=splitToMessage" />
 		</route>

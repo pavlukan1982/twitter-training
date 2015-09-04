@@ -4,8 +4,11 @@ public class GoogleMessageException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
+	public GoogleMessageException() {
+		super();
+	}
+
 	public GoogleMessageException(String s) {
 		super(s);
 	}
-
 }
