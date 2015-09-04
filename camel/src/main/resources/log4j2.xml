@@ -7,16 +7,13 @@
 	</Appenders>
 
 	<Loggers>
-
-		<Logger name="camelLog" level="INFO" additivity="false">
+		<Logger name="org.apache.camel" level="DEBUG" additivity="false">
 			<AppenderRef ref="CONSOLE" />
 		</Logger>
 
 		<Root level="INFO">
 			<AppenderRef ref="CONSOLE" />
 		</Root>
-
-
 	</Loggers>
 
 </Configuration>

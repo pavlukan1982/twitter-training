@@ -25,9 +25,11 @@ public class ServiceGoogleMail {
 		this.producer = producer;
 	}
 
-	public void splitToMessage(ListMessagesResponse messageList) throws GoogleMessageException {
+	public void splitToMessage(ListMessagesResponse messageList)
+			throws GoogleMessageException {
 
-		if (messageList.getResultSizeEstimate() != null) {
+		if (messageList.getResultSizeEstimate() != null
+				&& messageList.getResultSizeEstimate() > 0) {
 			for (Message message : messageList.getMessages()) {
 				if (message != null) {
 
@@ -36,12 +38,14 @@ public class ServiceGoogleMail {
 					requestParam.put("CamelGoogleMail.userId", "me");
 					requestParam.put("CamelGoogleMail.id", message.getId());
 
-					producer.sendBodyAndHeaders("direct:googleMessage", message.getId(), requestParam);
+					producer.sendBodyAndHeaders("direct:googleMessage",
+							message.getId(), requestParam);
 				}
 			}
 		} else {
 
-			throw new GoogleMessageException("Empty google list message response");
+			throw new GoogleMessageException(
+					"Empty google list message response");
 
 		}
 	}

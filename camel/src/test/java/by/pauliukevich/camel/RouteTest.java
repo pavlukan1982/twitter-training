@@ -21,10 +21,12 @@ public class RouteTest extends CamelBlueprintTestSupport {
 	@Test
 	public void testGetFile() throws Exception {
 
-		getMockEndpoint("mock:direct:tweetQueue").expectedMessageCount(2);
+		MockEndpoint endpoint = getMockEndpoint("mock:direct:tweetQueue");
+		endpoint.expectedMessageCount(2);
 
 		ClassLoader classLoader = getClass().getClassLoader();
-		File testFile = new File(classLoader.getResource("data/movies.xml").getFile());
+		File testFile = new File(classLoader.getResource("data/movies.xml")
+				.getFile());
 
 		template().sendBody("file:work/twitter-training/input", testFile);
 
@@ -35,27 +37,37 @@ public class RouteTest extends CamelBlueprintTestSupport {
 	public void testGoogleMailRoute() throws Exception {
 
 		MockEndpoint mockEndpoint = getMockEndpoint("mock:bean:serviceGoogleMail");
-		mockEndpoint.setAssertPeriod(50);
-		mockEndpoint.expectedMessageCount(1);
+		// mockEndpoint.setAssertPeriod(5000);
+		mockEndpoint.expectedMessageCount(14);
 
 		// return only list of message id
-		template().sendBodyAndHeader("google-mail://messages/list", "", "CamelGoogleMail.userId", "me");
+		// template().sendBodyAndHeader("google-mail://messages/list", "",
+		// "CamelGoogleMail.userId", "me");
+
+		template().sendBodyAndHeader("direct:googleSplitMessages", "",
+				"CamelGoogleMail.userId", "me");
 
 		assertMockEndpointsSatisfied();
-
 	}
 
 	@Test
 	public void testGoogleMailException() throws Exception {
-		template().sendBody("google-mail://messages/list", "");
+		// template().sendBody("direct:throwException", "");
+		getMockEndpoint("mock:error").expectedMessageCount(1);
 
-		// template().sendBody("bean:serviceGoogleMail", new
-		// ListMessagesResponse());
+		template().sendBodyAndHeader("direct:googleSplitMessages", "",
+				"CamelGoogleMail.q", "from:someuser@example.com");
+
+		// template().sendBody("bean:serviceGoogleMail",
+		// new ListMessagesResponse());
+		assertMockEndpointsSatisfied();
 	}
 
 	@Override
 	public String isMockEndpoints() {
-		return "*";
+		return "direct:tweetQueue|bean:serviceGoogleMail(.)*";
+		// return null;
+		// return "*";
 	}
 
 }
