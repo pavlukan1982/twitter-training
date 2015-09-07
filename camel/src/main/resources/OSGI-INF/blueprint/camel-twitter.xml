@@ -44,7 +44,7 @@
 		<onException>
 			<exception>by.pauliukevich.service.GoogleMessageException</exception>
 
-			<camel:exception>org.apache.camel.RuntimeCamelException</camel:exception>
+			<camel:exception>org.apache.camel.CamelExecutionException</camel:exception>
 
 			<camel:handled><constant>true</constant></camel:handled>
 			<to uri="mock:error" />
@@ -84,15 +84,15 @@
 				<setHeader headerName="searchedMovie">
 					<xpath resultType="java.lang.String">/movie:movie/@id</xpath>
 				</setHeader>
-				<setHeader headerName="CamelTwitterKeywords">
-					<simple>#${header.searchedMovie}Movie</simple>
-				</setHeader>
 				<to uri="direct:tweetQueue" />
 			</split>
 		</route>
 
 		<route id="twitter-search">
 			<from uri="direct:tweetQueue" />
+			<setHeader headerName="CamelTwitterKeywords">
+				<simple>#${header.searchedMovie}Movie</simple>
+			</setHeader>
 			<log
 				message="Searching for ${header.searchedMovie} 
 			keyword ${header.CamelTwitterKeywords}" />
