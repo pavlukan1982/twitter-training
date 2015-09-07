@@ -47,25 +47,27 @@
 
 			<camel:exception>org.apache.camel.CamelExecutionException</camel:exception>
 
-
-			<camel:handled><constant>true</constant></camel:handled>
+			<camel:handled>
+				<constant>true</constant>
+			</camel:handled>
 			<log message="Error response list" />
 			<to uri="mock:error" />
-<!-- 			<to uri="bean:myErrorHandler?method=messageFailed" /> -->
+			<!-- <to uri="bean:myErrorHandler?method=messageFailed" /> -->
 		</onException>
 
 		<route id="exctest">
-			<from uri="direct:testexc"/>
+			<from uri="direct:testexc" />
 			<camel:throwException ref="exc"></camel:throwException>
 		</route>
 
 
 		<route id="googleSplitMessages">
-			<from uri="direct:googleSplitMessages"/>
-			<to
-				uri="google-mail://messages/list?userId=me&amp;consumer.delay=50000" />
+			<from uri="direct:googleSplitMessages" />
+			<to uri="google-mail://messages/list?userId=me&amp;consumer.delay=50000" />
 			<log message="Google mail request ${body}" />
 			<to uri="bean:serviceGoogleMail?method=splitToMessage" />
+			<log message="After bean" />
+			<to uri="direct:googleMessage" />
 		</route>
 
 

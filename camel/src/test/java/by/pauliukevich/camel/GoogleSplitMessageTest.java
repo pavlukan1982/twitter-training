@@ -14,6 +14,12 @@ public class GoogleSplitMessageTest extends RouteTestSupport {
 
 	@Override
 	public String isMockEndpoints() {
-		return "bean:serviceGoogleMail";
+		return "bean:serviceGoogleMail(.)*";
 	}
+
+	// @Override
+	// public String isMockEndpointsAndSkip() {
+	// return "google-mail://messages/list";
+	// }
+
 }
