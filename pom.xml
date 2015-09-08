@@ -6,21 +6,26 @@
 
 	<groupId>by.pauliukevich</groupId>
 	<artifactId>camel-training</artifactId>
-	<version>1.0</version>
+	<version>${project.version}</version>
 	<packaging>pom</packaging>
 
 	<name>Camel :: Training</name>
 
 	<modules>
-		<module>camel</module>
+		<module>message</module>
+		<module>camel-twitter</module>
+		<module>camel-google</module>
 		<module>feature</module>
 		<module>itest</module>
+		<module>collector</module>
 	</modules>
 
 	<properties>
 
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
+
+		<project.version>1.0</project.version>
 
 		<camel.version>2.15.1.redhat-620133</camel.version>
 		<slf4j.version>1.7.12</slf4j.version>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+	xmlns:camel="http://camel.apache.org/schema/blueprint"
+	xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+	http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.0.0 http://aries.apache.org/schemas/blueprint-cm/blueprint-cm-1.0.0.xsd 
+             http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
+
+	<!-- <cm:property-placeholder persistent-id="googleProperties" update-strategy="reload"> 
+		<cm:default-properties> <cm:property name="blueprintProperties" value="google.properties" 
+		/> </cm:default-properties> </cm:property-placeholder> -->
+
+	<bean id="serviceTwitter" class="by.pauliukevich.service.ServiceTwitter" />
+
+	<camelContext id="camel-training"
+		xmlns="http://camel.apache.org/schema/blueprint" xmlns:movie="http://fabric8.com/examples/movie">
+
+		<propertyPlaceholder location="classpath:twitter.properties"
+			id="placeholder" />
+
+		<route id="get-file">
+			<from
+				uri="file:work/twitter-training/input?moveFailed=../failed&amp;move=../processed" />
+			<log message="File ${file:name} started processing" />
+			<split>
+				<xpath>//movie:movie</xpath>
+				<setHeader headerName="searchedMovie">
+					<xpath resultType="java.lang.String">/movie:movie/@id</xpath>
+				</setHeader>
+				<to uri="direct:tweetQueue" />
+			</split>
+		</route>
+
+		<route id="twitter-search">
+			<from uri="direct:tweetQueue" />
+			<setHeader headerName="CamelTwitterKeywords">
+				<simple>#${header.searchedMovie}Movie</simple>
+			</setHeader>
+			<log
+				message="Searching for ${header.searchedMovie} 
+			keyword ${header.CamelTwitterKeywords}" />
+			<to
+				uri="twitter://search?accessToken={{access.token}}&amp;accessTokenSecret={{access.token-secret}}&amp;consumerKey={{consumer.key}}&amp;consumerSecret={{consumer.secret}}" />
+			<to uri="bean:serviceTwitter?method=convertToModel" />
+		</route>
+
+		<route id="convertToModel">
+			<from uri="direct:myModel"></from>
+			<log message="ModelMessage ${body}" />
+			<to uri="mock:test" />
+		</route>
+	</camelContext>
+
+</blueprint>
