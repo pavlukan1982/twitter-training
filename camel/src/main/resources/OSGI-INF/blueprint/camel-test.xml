@@ -53,12 +53,6 @@
 			<!-- <to uri="bean:myErrorHandler?method=messageFailed" /> -->
 		</onException>
 
-		<route id="exctest">
-			<from uri="direct:testexc" />
-			<camel:throwException ref="exc"></camel:throwException>
-		</route>
-
-
 		<route id="googleSplitMessages">
 			<from uri="google-mail://messages/list?userId=me&amp;consumer.delay=50000" />
 			<log message="Google mail request ${body}" />
@@ -66,51 +60,7 @@
 		</route>
 
 
-
-		<!-- <route id="googleSplitMessages"> <from uri="google-mail://messages/list?userId=me&amp;consumer.delay=50000" 
-			/> <doTry> <log message="Google mail request ${body}" /> <to uri="bean:serviceGoogleMail?method=splitToMessage" 
-			/> </doTry> <doCatch> <exception>org.apache.camel.RuntimeCamelException</exception> 
-			<to uri="mock:error" /> </doCatch> </route> -->
-
-		<route id="processGoogleMessage">
-			<from uri="direct:googleMessage" />
-			<log message="Google message id ${body}" />
-			<to uri="google-mail://messages/get" />
-			<to uri="bean:serviceGoogleMailConvert?method=convertToModel" />
-		</route>
-
-
-		<route id="get-file">
-			<from
-				uri="file:work/twitter-training/input?moveFailed=../failed&amp;move=../processed" />
-			<log message="File ${file:name} started processing" />
-			<split>
-				<xpath>//movie:movie</xpath>
-				<setHeader headerName="searchedMovie">
-					<xpath resultType="java.lang.String">/movie:movie/@id</xpath>
-				</setHeader>
-				<to uri="direct:tweetQueue" />
-			</split>
-		</route>
-
-		<route id="twitter-search">
-			<from uri="direct:tweetQueue" />
-			<setHeader headerName="CamelTwitterKeywords">
-				<simple>#${header.searchedMovie}Movie</simple>
-			</setHeader>
-			<log
-				message="Searching for ${header.searchedMovie} 
-			keyword ${header.CamelTwitterKeywords}" />
-			<to
-				uri="twitter://search?accessToken={{access.token}}&amp;accessTokenSecret={{access.token-secret}}&amp;consumerKey={{consumer.key}}&amp;consumerSecret={{consumer.secret}}" />
-			<to uri="bean:serviceTwitter?method=convertToModel" />
-		</route>
-
-		<route id="convertToModel">
-			<from uri="direct:myModel"></from>
-			<log message="ModelMessage ${body}" />
-			<to uri="mock:test" />
-		</route>
+		
 	</camelContext>
 
 </blueprint>

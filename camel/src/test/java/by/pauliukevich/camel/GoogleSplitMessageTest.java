@@ -9,17 +9,22 @@ public class GoogleSplitMessageTest extends RouteTestSupport {
 	public void testGoogleMailException() throws Exception {
 		// template().sendBody("google-mail://messages/list", "");
 
-		template().sendBody("bean:serviceGoogleMail", new ListMessagesResponse());
+		template().sendBody("bean:serviceGoogleMailSplit", new ListMessagesResponse());
 	}
 
 	@Override
 	public String isMockEndpoints() {
-		return "bean:serviceGoogleMail(.)*";
+		return "bean:serviceGoogleMailSplit(.)*";
 	}
 
-	// @Override
-	// public String isMockEndpointsAndSkip() {
-	// return "google-mail://messages/list";
-	// }
+	@Override
+	public String isMockEndpointsAndSkip() {
+		return "google-mail://messages/list|direct:googleMessage";
+	}
+
+	@Override
+	protected String getBlueprintDescriptor() {
+		return "/OSGI-INF/blueprint/camel-test.xml";
+	}
 
 }

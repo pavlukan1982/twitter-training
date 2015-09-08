@@ -8,7 +8,7 @@
 
 	<Loggers>
 
-		<Logger name="org.apache.camel" level="INFO" additivity="false">
+		<Logger name="org.apache.camel" level="DEBUG" additivity="false">
 			<AppenderRef ref="CONSOLE" />
 		</Logger>
 
