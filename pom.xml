@@ -6,7 +6,7 @@
 
 	<groupId>by.pauliukevich</groupId>
 	<artifactId>camel-training</artifactId>
-	<version>${project.version}</version>
+	<version>1.0</version>
 	<packaging>pom</packaging>
 
 	<name>Camel :: Training</name>
