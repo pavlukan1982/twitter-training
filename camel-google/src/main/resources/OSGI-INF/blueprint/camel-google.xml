@@ -15,7 +15,7 @@
 	<bean id="serviceGoogleMailSplit" class="by.pauliukevich.service.ServiceGoogleMailSplit" />
 	<bean id="serviceGoogleMailConvert" class="by.pauliukevich.service.ServiceGoogleMailConvert" />
 
-	
+
 
 	<bean id="google-mail"
 		class="org.apache.camel.component.google.mail.GoogleMailComponent">
@@ -34,6 +34,10 @@
 		</property>
 	</bean>
 
+	<bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
+		<property name="brokerURL" value="tcp://localhost:61617" />
+	</bean>
+
 	<camelContext id="camel-training"
 		xmlns="http://camel.apache.org/schema/blueprint" xmlns:movie="http://fabric8.com/examples/movie">
 
@@ -47,7 +51,8 @@
 		</onException>
 
 		<route id="googleSplitMessages">
-			<from uri="google-mail://messages/list?userId=me&amp;consumer.delay=50000" />
+			<from
+				uri="google-mail://messages/list?userId=me&amp;consumer.delay=50000" />
 			<log message="Google mail request ${body}" />
 			<to uri="bean:serviceGoogleMailSplit?method=splitToMessage" />
 		</route>
@@ -58,11 +63,11 @@
 			<to uri="google-mail://messages/get" />
 			<to uri="bean:serviceGoogleMailConvert?method=convertToModel" />
 		</route>
-		
+
 		<route id="convertToModel">
 			<from uri="direct:myModel"></from>
 			<log message="ModelMessage ${body}" />
-			<to uri="mock:test" />
+			<to uri="activemq:messageQueue" />
 		</route>
 	</camelContext>
 

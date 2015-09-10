@@ -33,7 +33,7 @@
 		<twitter4j.version>4.0.4</twitter4j.version>
 		<karaf.version>4.0.1</karaf.version>
 		<log4j.version>2.3</log4j.version>
-
+		<activemq.version>5.11.0.redhat-620133</activemq.version>
 
 		<jboss.fuse.bom.version>6.2.0.redhat-133</jboss.fuse.bom.version>
 		<!-- the version of the BOM, defining all the dependency versions -->
@@ -46,7 +46,6 @@
 
 	<dependencyManagement>
 		<dependencies>
-
 
 			<dependency>
 				<groupId>org.jboss.fuse.bom</groupId>
@@ -61,7 +60,6 @@
 				<version>${fabric8.bom.version}</version>
 				<type>pom</type>
 			</dependency>
-
 
 			<dependency>
 				<groupId>org.apache.camel</groupId>
@@ -105,9 +103,17 @@
 				<version>${camel.version}</version>
 			</dependency>
 
+			<dependency>
+				<groupId>org.apache.activemq</groupId>
+				<artifactId>activemq-camel</artifactId>
+				<version>${activemq.version}</version>
+			</dependency>
 
-
-
+			<dependency>
+				<groupId>org.apache.activemq</groupId>
+				<artifactId>activemq-osgi</artifactId>
+				<version>5.12.0</version>
+			</dependency>
 
 			<dependency>
 				<groupId>org.apache.logging.log4j</groupId>
@@ -164,7 +170,7 @@
 				<artifactId>javax.inject</artifactId>
 				<version>1</version>
 			</dependency>
-			
+
 		</dependencies>
 	</dependencyManagement>
 
