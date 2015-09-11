@@ -28,12 +28,13 @@
 		<project.version>1.0</project.version>
 
 		<camel.version>2.15.1.redhat-620133</camel.version>
+		<activemq.version>5.11.0.redhat-620133</activemq.version>
+
 		<slf4j.version>1.7.12</slf4j.version>
 		<pax-exam.version>4.6.0</pax-exam.version>
 		<twitter4j.version>4.0.4</twitter4j.version>
 		<karaf.version>4.0.1</karaf.version>
 		<log4j.version>2.3</log4j.version>
-		<activemq.version>5.11.0.redhat-620133</activemq.version>
 
 		<jboss.fuse.bom.version>6.2.0.redhat-133</jboss.fuse.bom.version>
 		<!-- the version of the BOM, defining all the dependency versions -->
@@ -52,6 +53,7 @@
 				<artifactId>jboss-fuse-parent</artifactId>
 				<version>${jboss.fuse.bom.version}</version>
 				<type>pom</type>
+				<scope>import</scope>
 			</dependency>
 
 			<dependency>
@@ -59,18 +61,6 @@
 				<artifactId>fabric8-bom</artifactId>
 				<version>${fabric8.bom.version}</version>
 				<type>pom</type>
-			</dependency>
-
-			<dependency>
-				<groupId>org.apache.camel</groupId>
-				<artifactId>camel-core</artifactId>
-				<version>${camel.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.apache.camel</groupId>
-				<artifactId>camel-blueprint</artifactId>
-				<version>${camel.version}</version>
 			</dependency>
 
 			<dependency>
@@ -83,36 +73,6 @@
 				<groupId>org.twitter4j</groupId>
 				<artifactId>twitter4j-core</artifactId>
 				<version>${twitter4j.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.apache.camel</groupId>
-				<artifactId>camel-test-blueprint</artifactId>
-				<version>${camel.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.apache.camel</groupId>
-				<artifactId>camel-test</artifactId>
-				<version>${camel.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.apache.camel</groupId>
-				<artifactId>camel-twitter</artifactId>
-				<version>${camel.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.apache.activemq</groupId>
-				<artifactId>activemq-camel</artifactId>
-				<version>${activemq.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.apache.activemq</groupId>
-				<artifactId>activemq-osgi</artifactId>
-				<version>5.12.0</version>
 			</dependency>
 
 			<dependency>

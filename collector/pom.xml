@@ -17,20 +17,6 @@
 
 	<dependencies>
 
-
-		<dependency>
-			<groupId>org.jboss.fuse.bom</groupId>
-			<artifactId>jboss-fuse-parent</artifactId>
-			<type>pom</type>
-		</dependency>
-
-		<dependency>
-			<groupId>io.fabric8.bom</groupId>
-			<artifactId>fabric8-bom</artifactId>
-			<type>pom</type>
-		</dependency>
-
-
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-core</artifactId>
