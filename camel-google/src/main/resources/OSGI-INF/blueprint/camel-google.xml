@@ -35,7 +35,7 @@
 	</bean>
 
 	<bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
-		<property name="brokerURL" value="tcp://localhost:61617" />
+		<property name="brokerURL" value="tcp://localhost:61616" />
 	</bean>
 
 	<camelContext id="camel-training"
