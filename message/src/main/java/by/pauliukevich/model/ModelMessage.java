@@ -1,6 +1,11 @@
 package by.pauliukevich.model;
 
-public class ModelMessage {
+import java.io.Serializable;
+
+public class ModelMessage implements Serializable {
+
+	private static final long serialVersionUID = -718626748751709944L;
+
 	private String message;
 
 	public String getMessage() {
@@ -15,7 +20,5 @@ public class ModelMessage {
 	public String toString() {
 		return message;
 	}
-	
-	
 
 }

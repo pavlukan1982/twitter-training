@@ -6,6 +6,7 @@
 		<feature>camel-blueprint</feature>
 		<feature>camel-google-mail</feature>
 		<feature>activemq-camel</feature>
+		<feature>camel-jackson</feature>
 		<bundle>mvn:by.pauliukevich/camel-google/1.0</bundle>
 		<bundle>wrap:mvn:by.pauliukevich/message/1.0</bundle>
 	</feature>
