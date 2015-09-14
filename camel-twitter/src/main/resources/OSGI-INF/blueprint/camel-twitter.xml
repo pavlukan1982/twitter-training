@@ -13,6 +13,12 @@
 
 	<bean id="serviceTwitter" class="by.pauliukevich.service.ServiceTwitter" />
 
+	<bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
+		<property name="brokerURL" value="tcp://localhost:61617" />
+		<property name="userName" value="admin" />
+		<property name="password" value="admin" />
+	</bean>
+
 	<camelContext id="camel-training"
 		xmlns="http://camel.apache.org/schema/blueprint" xmlns:movie="http://fabric8.com/examples/movie">
 
@@ -47,8 +53,8 @@
 
 		<route id="convertToModel">
 			<from uri="direct:myModel"></from>
-			<log message="ModelMessage ${body}" />
-			<to uri="mock:test" />
+			<log message="ModelMessage ${body} send to MQBroker" />
+			<to uri="activemq:messageQueue" />
 		</route>
 	</camelContext>
 

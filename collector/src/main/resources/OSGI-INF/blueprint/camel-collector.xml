@@ -7,108 +7,18 @@
 	http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.0.0 http://aries.apache.org/schemas/blueprint-cm/blueprint-cm-1.0.0.xsd 
              http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
 
-	<!-- <cm:property-placeholder persistent-id="googleProperties" update-strategy="reload"> 
-		<cm:default-properties> <cm:property name="blueprintProperties" value="google.properties" 
-		/> </cm:default-properties> </cm:property-placeholder> -->
-
-	<bean id="serviceTwitter" class="by.pauliukevich.service.ServiceTwitter" />
-	<bean id="serviceGoogleMailSplit" class="by.pauliukevich.service.ServiceGoogleMailSplit" />
-	<bean id="serviceGoogleMailConvert" class="by.pauliukevich.service.ServiceGoogleMailConvert" />
-
-	<bean id="myErrorHandler" class="by.pauliukevich.service.MyErrorHandler" />
-
-	<bean id="exc" class="by.pauliukevich.service.GoogleMessageException"></bean>
-
-	<bean id="google-mail"
-		class="org.apache.camel.component.google.mail.GoogleMailComponent">
-		<property name="configuration">
-			<bean
-				class="org.apache.camel.component.google.mail.GoogleMailConfiguration">
-				<property name="applicationName" value="fuse-training" />
-				<property name="clientId"
-					value="594101008393-hkq007ebdjnaq568o4qrq1ho0ql6jqbo.apps.googleusercontent.com" />
-				<property name="clientSecret" value="9B8i-CS-o54KGCRBT0N6zYYG" />
-				<property name="refreshToken"
-					value="1/6ZLHC31RHi5-4HMQyxw36pRZXUorocBF7-1kbcCsXtU" />
-				<property name="accessToken"
-					value="ya29.3AGzs2IluUJqTm17PFHSNyO9ikwwV-FgW5tbkmv1Yp-nsWbwVY2TtfWIGdFdQ9m_2vxH" />
-			</bean>
-		</property>
+		<bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
+		<property name="brokerURL" value="tcp://localhost:61617" />
+		<property name="userName" value="admin" />
+		<property name="password" value="admin" />
 	</bean>
+	
 
 	<camelContext id="camel-training"
-		xmlns="http://camel.apache.org/schema/blueprint" xmlns:movie="http://fabric8.com/examples/movie">
-
-		<propertyPlaceholder location="classpath:twitter.properties"
-			id="placeholder" />
-
-
-		<onException>
-			<exception>by.pauliukevich.service.GoogleMessageException</exception>
-			<camel:handled>
-				<constant>true</constant>
-			</camel:handled>
-			<log message="Error response list" />
-			<to uri="mock:error" />
-			<!-- <to uri="bean:myErrorHandler?method=messageFailed" /> -->
-		</onException>
-
-		<route id="exctest">
-			<from uri="direct:testexc" />
-			<camel:throwException ref="exc"></camel:throwException>
-		</route>
-
-
-		<route id="googleSplitMessages">
-			<from uri="google-mail://messages/list?userId=me&amp;consumer.delay=50000" />
-			<log message="Google mail request ${body}" />
-			<to uri="bean:serviceGoogleMailSplit?method=splitToMessage" />
-		</route>
-
-
-
-		<!-- <route id="googleSplitMessages"> <from uri="google-mail://messages/list?userId=me&amp;consumer.delay=50000" 
-			/> <doTry> <log message="Google mail request ${body}" /> <to uri="bean:serviceGoogleMail?method=splitToMessage" 
-			/> </doTry> <doCatch> <exception>org.apache.camel.RuntimeCamelException</exception> 
-			<to uri="mock:error" /> </doCatch> </route> -->
-
-		<route id="processGoogleMessage">
-			<from uri="direct:googleMessage" />
-			<log message="Google message id ${body}" />
-			<to uri="google-mail://messages/get" />
-			<to uri="bean:serviceGoogleMailConvert?method=convertToModel" />
-		</route>
-
-
-		<route id="get-file">
-			<from
-				uri="file:work/twitter-training/input?moveFailed=../failed&amp;move=../processed" />
-			<log message="File ${file:name} started processing" />
-			<split>
-				<xpath>//movie:movie</xpath>
-				<setHeader headerName="searchedMovie">
-					<xpath resultType="java.lang.String">/movie:movie/@id</xpath>
-				</setHeader>
-				<to uri="direct:tweetQueue" />
-			</split>
-		</route>
-
-		<route id="twitter-search">
-			<from uri="direct:tweetQueue" />
-			<setHeader headerName="CamelTwitterKeywords">
-				<simple>#${header.searchedMovie}Movie</simple>
-			</setHeader>
-			<log
-				message="Searching for ${header.searchedMovie} 
-			keyword ${header.CamelTwitterKeywords}" />
-			<to
-				uri="twitter://search?accessToken={{access.token}}&amp;accessTokenSecret={{access.token-secret}}&amp;consumerKey={{consumer.key}}&amp;consumerSecret={{consumer.secret}}" />
-			<to uri="bean:serviceTwitter?method=convertToModel" />
-		</route>
-
-		<route id="convertToModel">
-			<from uri="direct:myModel"></from>
-			<log message="ModelMessage ${body}" />
+		xmlns="http://camel.apache.org/schema/blueprint">
+		<route id="fromMessageQueue">
+			<from uri="activemq:messageQueue"></from>
+			<log message="ModelMessage ${body} from MQBroker" />
 			<to uri="mock:test" />
 		</route>
 	</camelContext>

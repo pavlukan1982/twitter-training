@@ -35,11 +35,13 @@
 	</bean>
 
 	<bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
-		<property name="brokerURL" value="tcp://localhost:61616" />
+		<property name="brokerURL" value="tcp://localhost:61617" />
+		<property name="userName" value="admin" />
+		<property name="password" value="admin" />
 	</bean>
 
 	<camelContext id="camel-training"
-		xmlns="http://camel.apache.org/schema/blueprint" xmlns:movie="http://fabric8.com/examples/movie">
+		xmlns="http://camel.apache.org/schema/blueprint">
 
 		<onException>
 			<exception>by.pauliukevich.service.GoogleMessageException</exception>
@@ -56,19 +58,19 @@
 			<log message="Google mail request ${body}" />
 			<to uri="bean:serviceGoogleMailSplit?method=splitToMessage" />
 		</route>
-
 		<route id="processGoogleMessage">
 			<from uri="direct:googleMessage" />
 			<log message="Google message id ${body}" />
 			<to uri="google-mail://messages/get" />
 			<to uri="bean:serviceGoogleMailConvert?method=convertToModel" />
 		</route>
-
 		<route id="convertToModel">
 			<from uri="direct:myModel"></from>
-			<log message="ModelMessage ${body}" />
+			<log message="ModelMessage ${body} send to MQBroker" />
 			<to uri="activemq:messageQueue" />
 		</route>
+
+
 	</camelContext>
 
 </blueprint>
