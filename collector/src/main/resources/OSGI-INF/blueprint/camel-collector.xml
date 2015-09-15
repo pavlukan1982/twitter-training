@@ -7,17 +7,27 @@
 	http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.0.0 http://aries.apache.org/schemas/blueprint-cm/blueprint-cm-1.0.0.xsd 
              http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
 
-		<bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
+	<bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
 		<property name="brokerURL" value="tcp://localhost:61617" />
 		<property name="userName" value="admin" />
 		<property name="password" value="admin" />
 	</bean>
-	
+
 
 	<camelContext id="camel-training"
 		xmlns="http://camel.apache.org/schema/blueprint">
+
+		<dataFormats>
+			<json id="jackMessage" library="Jackson"
+				unmarshalTypeName="by.pauliukevich.model.ModelMessage" />
+		</dataFormats>
+
+
 		<route id="fromMessageQueue">
 			<from uri="activemq:messageQueue"></from>
+			<unmarshal ref="jackMessage" />
+
+
 			<log message="ModelMessage ${body} from MQBroker" />
 			<to uri="mock:test" />
 		</route>

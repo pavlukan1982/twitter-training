@@ -14,12 +14,14 @@
 		<feature>camel-blueprint</feature>
 		<feature>camel-twitter</feature>
 		<feature>activemq-camel</feature>
+		<feature>camel-jackson</feature>
 		<bundle>mvn:by.pauliukevich/camel-twitter/1.0</bundle>
 		<bundle>wrap:mvn:by.pauliukevich/message/1.0</bundle>
 	</feature>
 	<feature name="collector-training">
 		<feature>camel-blueprint</feature>
 		<feature>activemq-camel</feature>
+		<feature>camel-jackson</feature>
 		<bundle>mvn:by.pauliukevich/collector/1.0</bundle>
 		<bundle>wrap:mvn:by.pauliukevich/message/1.0</bundle>
 	</feature>

@@ -12,14 +12,6 @@
 		/> </cm:default-properties> </cm:property-placeholder> -->
 
 
-	<dataFormats>
-		<!-- here we define a Json data format with the id jack and that it should 
-			use the TestPojo as the class type when doing unmarshal. The unmarshalTypeName 
-			is optional, if not provided Camel will use a Map as the type -->
-		<json id="jackMessage" library="Jackson" unmarshalTypeName="by.paulyukevich.model.ModelMessage" />
-	</dataFormats>
-
-
 	<bean id="serviceGoogleMailSplit" class="by.pauliukevich.service.ServiceGoogleMailSplit" />
 	<bean id="serviceGoogleMailConvert" class="by.pauliukevich.service.ServiceGoogleMailConvert" />
 
@@ -50,6 +42,11 @@
 
 	<camelContext id="camel-training"
 		xmlns="http://camel.apache.org/schema/blueprint">
+
+		<dataFormats>
+			<json id="jackMessage" library="Jackson"
+				unmarshalTypeName="by.pauliukevich.model.ModelMessage" />
+		</dataFormats>
 
 		<onException>
 			<exception>by.pauliukevich.service.GoogleMessageException</exception>
