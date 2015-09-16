@@ -16,7 +16,9 @@
 	</parent>
 
 	<properties>
-		<fabric8.profile>fabric-test-1</fabric8.profile>
+		<fabric8.profile>training-google</fabric8.profile>
+	    <fabric8.features>camel-google-training</fabric8.features>
+	    <fabric8.featureRepos>mvn:by.pauliukevich/feature/1.0/xml/features</fabric8.featureRepos>
 	</properties>
 
 	<dependencies>
@@ -87,8 +89,7 @@
 			<plugin>
 				<groupId>io.fabric8</groupId>
 				<artifactId>fabric8-maven-plugin</artifactId>
-				<configuration>
-				</configuration>
+				<version>${fabric8.maven.plugin.version}</version>
 			</plugin>
 
 		</plugins>

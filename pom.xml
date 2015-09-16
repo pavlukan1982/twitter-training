@@ -21,9 +21,8 @@
 	</modules>
 
 	<properties>
-
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -45,7 +44,8 @@
 		<fabric8.bom.version>1.2.0.redhat-133</fabric8.bom.version>
 
 		<felix.bundle.plugin.version>2.5.4</felix.bundle.plugin.version>
-		
+		<fabric8.maven.plugin.version>1.2.0.redhat-621031</fabric8.maven.plugin.version>
+
 	</properties>
 
 	<dependencyManagement>
